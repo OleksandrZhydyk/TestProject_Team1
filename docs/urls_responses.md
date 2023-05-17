@@ -3,7 +3,7 @@
 
 ### User Registration
 
-- URL: `https://api.example.com/api/v1/auth/register/`
+- URL: `http://api.example.com/api/v1/auth/register/`
 - Method: POST
 
 **Response**
@@ -18,7 +18,7 @@
 
 ### User Log In
 
-- URL: `https://api.example.com/api/v1/auth/login/`
+- URL: `http://api.example.com/api/v1/auth/login/`
 - Method: POST
 
 **Request**
@@ -40,7 +40,7 @@
 
 ### User Refresh Token
 
-- URL: `https://api.example.com/api/v1/auth/refresh/`
+- URL: `http://api.example.com/api/v1/auth/refresh/`
 - Method: POST
 
 **Request**
@@ -60,7 +60,7 @@
 
 ### Get User Data
 
-- URL: `https://api.example.com/api/v1/user/{id}`
+- URL: `http://api.example.com/api/v1/user/{id}`
 - Method: GET
 
 **Response**
@@ -79,7 +79,7 @@
 
 ### Get products Data
 
-- URL: `https://api.example.com/api/v1/product`
+- URL: `http://api.example.com/api/v1/product`
 - Method: GET
 
 **Response**
@@ -87,8 +87,8 @@
 ```json
 {
   "count": "int",
-  "next": "https://api.example.org/api/v1/product/?page=5",
-  "previous": "https://api.example.org/api/v1/product/?page=3",
+  "next": "http://api.example.org/api/v1/product/?page=5",
+  "previous": "http://api.example.org/api/v1/product/?page=3",
   "results": [
     {
       "name": "string",
@@ -106,7 +106,7 @@
 
 ### Get product Data
 
-- URL: `https://api.example.com/api/v1/product/{slug}`
+- URL: `http://api.example.com/api/v1/product/{slug}`
 - Method: GET
 
 **Response**
@@ -141,7 +141,7 @@
 
 ### Get product Category
 
-- URL: `https://api.example.com/api/v1/product/category`
+- URL: `http://api.example.com/api/v1/product/category`
 - Method: GET
 
 **Response**

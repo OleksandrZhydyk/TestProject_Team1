@@ -1,0 +1,18 @@
+backend/
+├── src
+│   ├── config
+│   ├── accounts
+│   │   ├── migrations
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── products
+│   ├── faker
+│   └── manage.py
+├── Pipfile
+└── requirements.txt

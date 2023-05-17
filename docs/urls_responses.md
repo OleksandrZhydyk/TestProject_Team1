@@ -77,9 +77,9 @@
 }
 ```
 
-### Get Commodities Data
+### Get products Data
 
-- URL: `https://api.example.com/api/v1/commodity`
+- URL: `https://api.example.com/api/v1/product`
 - Method: GET
 
 **Response**
@@ -87,8 +87,8 @@
 ```json
 {
   "count": "int",
-  "next": "https://api.example.org/api/v1/commodity/?page=5",
-  "previous": "https://api.example.org/api/v1/commodity/?page=3",
+  "next": "https://api.example.org/api/v1/product/?page=5",
+  "previous": "https://api.example.org/api/v1/product/?page=3",
   "results": [
     {
       "name": "string",
@@ -104,9 +104,9 @@
 }
 ```
 
-### Get Commodity Data
+### Get product Data
 
-- URL: `https://api.example.com/api/v1/commodity/{slug}`
+- URL: `https://api.example.com/api/v1/product/{slug}`
 - Method: GET
 
 **Response**
@@ -139,9 +139,9 @@
 }
 ```
 
-### Get Commodity Category
+### Get product Category
 
-- URL: `https://api.example.com/api/v1/commodity/category`
+- URL: `https://api.example.com/api/v1/product/category`
 - Method: GET
 
 **Response**

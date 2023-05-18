@@ -149,9 +149,15 @@
 ```json
 [
   {
-    "parent": "object",
     "name": "string",
-    "slug": "string"
+    "slug": "string",
+    "sub_category": [
+      {
+        "name": "string",
+        "slug": "string",
+        "sub_category": []
+      }
+    ]
   }
 ]
 ```

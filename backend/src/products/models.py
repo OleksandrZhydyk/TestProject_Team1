@@ -1,8 +1,10 @@
 import os
 
-from django.core.validators import MinValueValidator
 from django.db import models
+from django.core.validators import MinValueValidator
+from django.contrib.contenttypes.fields import GenericRelation
 
+from accounts.models import Comment
 
 class Product(models.Model):
     name = models.CharField(max_length=128)
@@ -20,6 +22,7 @@ class Product(models.Model):
     category = models.ForeignKey(
         "Category", related_name="products", null=True, blank=True, on_delete=models.SET_NULL
     )
+    comments = GenericRelation(Comment)
 
     def __str__(self):
         return self.name

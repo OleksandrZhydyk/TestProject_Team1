@@ -5,7 +5,7 @@ from django.db import models
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=128, blank=False, null=False)
+    name = models.CharField(max_length=128)
     price = models.FloatField(
         validators=[
             MinValueValidator(
@@ -50,13 +50,10 @@ class Photo(models.Model):
     product = models.ForeignKey(
         "Product",
         related_name="photos",
-        null=False,
-        blank=False,
         on_delete=models.CASCADE
     )
     image = models.ImageField(
         default="products/no_image.png",
-        null=True,
         blank=True,
         upload_to=upload_to,
         verbose_name="Image"
@@ -71,7 +68,7 @@ class Category(models.Model):
     parent = models.ForeignKey(
         "Category", related_name="categories", null=True, blank=True, on_delete=models.CASCADE
     )
-    slug = models.SlugField(default="", null=False, unique=True)
+    slug = models.SlugField(default="", unique=True)
 
     def get_categories(self):
         if self.parent is None:

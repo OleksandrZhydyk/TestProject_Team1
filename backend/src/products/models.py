@@ -16,7 +16,7 @@ class Product(models.Model):
     description = models.TextField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
-    slug = models.SlugField(default="", null=False, unique=True)
+    slug = models.SlugField(unique=True)
     category = models.ForeignKey(
         "Category", related_name="products", null=True, blank=True, on_delete=models.SET_NULL
     )
@@ -68,7 +68,7 @@ class Category(models.Model):
     parent = models.ForeignKey(
         "Category", related_name="categories", null=True, blank=True, on_delete=models.CASCADE
     )
-    slug = models.SlugField(default="", unique=True)
+    slug = models.SlugField(unique=True)
 
     def get_categories(self):
         if self.parent is None:

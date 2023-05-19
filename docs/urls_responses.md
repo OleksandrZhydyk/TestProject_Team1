@@ -6,7 +6,7 @@
 - URL: `http://api.example.com/api/v1/auth/register/`
 - Method: POST
 
-**Response**
+**Request**
 
 ```json
 {
@@ -33,8 +33,8 @@
 **Response**
 ```json
 {
-  "access_token": "string",
-  "refresh_token": "string"
+  "access": "string",
+  "refresh": "string"
 }
 ```
 

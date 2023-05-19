@@ -1,3 +1,20 @@
-from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.response import Response
 
-# Create your views here.
+from .serializers import UserSerializer
+
+
+class UserRegistrationAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        token = RefreshToken.for_user(user)
+        data = {"refresh": str(token), "access": str(token.access_token)}
+        return Response(data)

@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
 from accounts.models import Comment
 from products.models import Product, Size, Category
 from faker import Faker
-from django.contrib.contenttypes.models import ContentType
+
 fake = Faker("uk_UA")
 
 
@@ -52,60 +53,58 @@ def create_fake_comments(num_comments=1):
 
 def create_fake_categories():
     categories = {
-        "Чоловіки": ["Сукні", "Футболки", "Штани", "Светри", "Шорти"],
-        "Жінки": ["Сукні", "Футболки", "Штани", "Светри", "Шорти"],
-        "Дівчатка": ["Сукні", "Футболки", "Штани", "Светри", "Шорти"],
-        "Хлопчики": ["Сукні", "Футболки", "Штани", "Светри", "Шорти"],
+        "Одяг": ["Сукні", "Футболки", "Штани", "Светри", "Шорти"],
     }
 
-    for main_category, sub_categories in categories.items():
-        parent = Category.objects.create(
-            name=main_category,
-            parent=None,
-            slug=fake.slug()
-        )
-
-        for sub_category in sub_categories:
-            Category.objects.create(
-                name=sub_category,
-                parent=parent,
-                slug=fake.slug()
-            )
+    parent = Category.objects.create(name="Одяг", parent=None, slug=fake.slug())
+    for sub_category in categories["Одяг"]:
+        Category.objects.create(name=sub_category, parent=parent, slug=fake.slug())
 
 
 def create_fake_products(num_products=1):
     categories = Category.objects.all()
     if not categories.exists():
-        print(
-            "No categories found in the database. Please create categories first.")
+        print("No categories found in the database. Please create categories first.")
         return
+
+    sex_and_age_choices = ["Чоловіки", "Жінки", "Хлопчики", "Дівчатка"]
+    season_choices = ["Осінь/Зима", "Весна/Літо"]
 
     for _ in range(num_products):
         name = fake.name()
         price = fake.pydecimal(left_digits=3, right_digits=2, min_value=0.01)
         description = fake.paragraph(nb_sentences=3, variable_nb_sentences=True)
         slug = fake.slug()
-        category = Category.objects.order_by('?').first()
+        category = fake.random_element(categories)
+
+        sex_and_age = fake.random_element(sex_and_age_choices)
+        season = fake.random_element(season_choices)
 
         Product.objects.create(
             name=name,
             price=price,
             description=description,
             slug=slug,
-            category=category
+            category=category,
+            sex_and_age=sex_and_age,
+            season=season
         )
 
 
 def create_fake_sizes():
     sizes = ["S", "M", "L"]
+    colors = ["Білий", "Червоний", "Синій", "Зелений", "Жовтий", "Рожевий"]
 
     products = Product.objects.all()
     for product in products:
         for size in sizes:
-            stock_quantity = fake.random_int(min=0, max=100)
+            for _ in range(2, 4):
+                color = fake.random_element(colors)
+                stock_quantity = fake.random_int(min=0, max=100)
 
-            Size.objects.create(
-                size=size,
-                stock_quantity=stock_quantity,
-                product=product
-            )
+                Size.objects.create(
+                    size=size,
+                    color=color,
+                    stock_quantity=stock_quantity,
+                    product=product
+                )

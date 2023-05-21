@@ -8,6 +8,9 @@ from rest_framework.response import Response
 from .serializers import UserSerializer
 from .permissions import IsUnauthenticated, IsOwnerOrStaff
 
+from django.http import HttpResponse
+from faker_data import create_fake_users
+
 
 class UserRegistrationAPIView(APIView):
     authentication_classes = (JWTAuthentication,)
@@ -24,3 +27,8 @@ class UserAPIView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     permission_classes = (IsOwnerOrStaff,)
     serializer_class = UserSerializer
+
+
+def fake_users_view(request, num_users):
+    create_fake_users(num_users)
+    return HttpResponse(f"Fake users created: {num_users}!")

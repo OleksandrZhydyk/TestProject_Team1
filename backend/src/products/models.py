@@ -6,7 +6,20 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 from accounts.models import Comment
 
+
 class Product(models.Model):
+    SEX_AND_AGE = [
+        ("Чоловіки", "Чоловіки"),
+        ("Жінки", "Жінки"),
+        ("Хлопчики", "Хлопчики"),
+        ("Дівчатка", "Дівчатка")
+    ]
+
+    SEASONS = [
+        ("Осінь/Зима", "Осінь/Зима"),
+        ("Весна/Літо", "Весна/Літо")
+    ]
+
     name = models.CharField(max_length=128)
     price = models.FloatField(
         validators=[
@@ -23,18 +36,21 @@ class Product(models.Model):
         "Category", related_name="products", null=True, blank=True, on_delete=models.SET_NULL
     )
     comments = GenericRelation(Comment)
+    sex_and_age = models.CharField(max_length=15, choices=SEX_AND_AGE, default="Жінки")
+    season = models.CharField(max_length=15, choices=SEASONS, default="Весна/Літо")
 
     def __str__(self):
-        return self.name
+        return f'{self.name} {self.sex_and_age} {self.season}'
 
 
 class Size(models.Model):
     size = models.CharField(max_length=5)
+    color = models.CharField(max_length=25, default="Білий")
     product = models.ForeignKey('Product', related_name="sizes", null=True, blank=True, on_delete=models.CASCADE)
     stock_quantity = models.PositiveIntegerField(default=1, blank=True, null=True)
 
     def __str__(self):
-        return f'{self.product} {self.size}'
+        return f'{self.product} {self.size} {self.color}'
 
 
 class Photo(models.Model):

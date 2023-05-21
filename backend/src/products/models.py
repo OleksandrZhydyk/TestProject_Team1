@@ -72,7 +72,7 @@ class Photo(models.Model):
         on_delete=models.CASCADE
     )
     image = models.ImageField(
-        default="products/no_image.png",
+        default="product/no_image.png",
         blank=True,
         upload_to=upload_to,
         verbose_name="Image"

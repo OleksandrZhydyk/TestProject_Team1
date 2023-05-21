@@ -15,7 +15,10 @@ export const NavLis = styled.ul`
 `;
 
 export const NavListItem = styled.li`
-  margin-right: 36px;
+margin-right: 36px;
+font-family: 'MontserratRegular';
+font-size: 16px;
+line-height: 22px;
 `;
 
 export const FilterA = styled(Link)`

@@ -14,32 +14,33 @@ const StyledForm = styled.form`
   jostyfi-content: center;
   align-items: center;
   gap: 1rem;
+  margin-bottom: 7%;
 `;
   
-type FormProps = {
-  setIsOpenLoginForm: React.Dispatch<React.SetStateAction<boolean>>
+type RegFormProps = {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>
+  setIsOpenLoginForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 type FormValues = {
   username: string,
-  password: string
+  password: string,
+  password_confirm: string
 }
 
-const LoginForm = ({ setIsOpenLoginForm, setIsOpenModal }: FormProps) => {
-  
+const RegistrationForm = ({ setIsOpenModal, setIsOpenLoginForm }: RegFormProps) => {
+
   const {register, handleSubmit} = useForm<FormValues>()
   const onSubmit: SubmitHandler<FormValues> = data => {
     console.log(data)
     setIsOpenModal(false);
-    setIsOpenLoginForm(false);
   };
 
   return (
     <DialogContent sx={{ padding: "10%"}}>
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <Typography variant="h4" gutterBottom>
-          Login
+          Registration
         </Typography>
         <TextField
           {...register("username")}
@@ -56,17 +57,34 @@ const LoginForm = ({ setIsOpenLoginForm, setIsOpenModal }: FormProps) => {
           size="small"
           placeholder="Password"
         />
-        
+        <TextField
+          {...register("password_confirm")}
+          fullWidth
+          type="password"
+          size="small"
+          placeholder="Confirm Password"
+        />
         <Button
           type="submit"
           fullWidth
           variant="contained"
         >
-          Login
+          Registration
         </Button>
       </StyledForm>
+      <Typography variant="caption" gutterBottom>
+        Already have account?
+        <Button
+          sx={{ textTransform: "none", letterSpacing: 0}}
+          size="small"
+          variant="text"
+          onClick={()=>{setIsOpenLoginForm(true)}}
+        >
+          Log in
+        </Button>
+      </Typography>
     </DialogContent>
   );
 }
 
-export default LoginForm;
+export default RegistrationForm;

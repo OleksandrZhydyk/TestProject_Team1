@@ -44,7 +44,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     photos = PhotoSerializer(many=True, read_only=True)
     sizes = SizesSerializer(many=True, read_only=True)
-    category = CategoryProductSerializer()
+    category = CategoryProductSerializer(read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
@@ -54,7 +54,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class ProductsSerializer(serializers.ModelSerializer):
     photos = PhotoSerializer(many=True, read_only=True)
-    category = CategoryProductSerializer()
+    category = CategoryProductSerializer(read_only=True)
 
     class Meta:
         model = Product

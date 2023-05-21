@@ -67,7 +67,7 @@
 
 ### Get User Data
 
-- URL: `http://api.example.com/api/v1/user/{id}`
+- URL: `http://api.example.com/api/v1/me`
 - Method: GET
 
 **Response**
@@ -166,26 +166,6 @@
             "size": "string",
             "color": "string",
             "stock_quantity": "int"
-        },
-        {
-            "size": "string",
-            "color": "string",
-            "stock_quantity": "int"
-        },
-        {
-            "size": "string",
-            "color": "string",
-            "stock_quantity": "int"
-        },
-        {
-            "size": "string",
-            "color": "string",
-            "stock_quantity": "int"
-        },
-        {
-            "size": "string",
-            "color": "string",
-            "stock_quantity": "int"
         }
     ],
     "category": {
@@ -234,4 +214,30 @@
     ]
   }
 ]
+```
+
+### Make products order
+
+- URL: `http://api.example.com/api/v1/product/makeorder`
+- Method: POST
+
+**Request**
+
+```json
+[
+  {
+    "id": "int",
+    "slug": "string",
+    "quantity": "int",
+    "color": "string",
+    "size": "string"
+  }
+]
+```
+
+**Response**
+```json
+{
+  "message": "Successfully ordered"
+}
 ```

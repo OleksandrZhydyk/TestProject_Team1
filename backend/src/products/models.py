@@ -93,7 +93,7 @@ class Category(models.Model):
         if self.parent is None:
             return self.name
         else:
-            return self.parent.get_categories() + ' -> ' + self.name
+            return f'{self.parent} -> {self.name}'
 
     def __str__(self):
         return self.get_categories()

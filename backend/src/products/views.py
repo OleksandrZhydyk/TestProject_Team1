@@ -32,10 +32,9 @@ class ProductsList(ListAPIView):
     serializer_class = ProductsSerializer
     pagination_class = ProductPagination
     permission_classes = [AllowAny]
-    queryset = Product.objects\
-        .prefetch_related('photos')\
-        .select_related('category')\
-        .all()\
+    queryset = Product.objects \
+        .prefetch_related('photos') \
+        .select_related('category') \
         .order_by('-created_at')
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = ProductFilter
@@ -49,7 +48,6 @@ class ProductView(RetrieveAPIView):
     queryset = Product.objects \
         .prefetch_related('photos', 'sizes', 'comments') \
         .select_related('category') \
-        .all() \
         .order_by('-created_at')
 
 

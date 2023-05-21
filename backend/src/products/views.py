@@ -44,7 +44,6 @@ class ProductsList(ListAPIView):
 
 class ProductView(RetrieveAPIView):
     serializer_class = ProductSerializer
-    pagination_class = ProductPagination
     permission_classes = [AllowAny]
     lookup_field = 'slug'
     queryset = Product.objects \

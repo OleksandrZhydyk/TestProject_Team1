@@ -1,10 +1,10 @@
 import styled from "styled-components";
+import { useState } from "react";
 
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { IconButton } from "@mui/material";
 
-import LoginForm from "./LoginForm";
-import { useState } from "react";
+import RegLogModal from "../container/RegLogModal";
 
 const StyledNav = styled.nav`
   display: flex;
@@ -15,10 +15,10 @@ const StyledNav = styled.nav`
 `;
 
 const Nav = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
 
   const handleClickOpen = () => {
-    setIsOpen(true);
+    setIsOpenModal(true);
   };
 
   return (
@@ -27,7 +27,7 @@ const Nav = () => {
       <IconButton onClick={handleClickOpen} aria-label="login">
         <PersonOutlineOutlinedIcon />
       </IconButton>
-      <LoginForm isOpen={isOpen} setIsOpen={setIsOpen} />
+      <RegLogModal isOpenModal={isOpenModal} setIsOpenModal={setIsOpenModal} />
     </StyledNav>
   );
 };

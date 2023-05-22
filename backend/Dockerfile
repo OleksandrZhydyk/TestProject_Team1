@@ -14,4 +14,4 @@ RUN python -m pip install --upgrade pip && \
 COPY ./src ./src
 COPY ./commands ./commands
 
-CMD ["bash", "commands/start_server_dev.sh"]
+CMD ["bash", "commands/start_server_${MODE}.sh"]

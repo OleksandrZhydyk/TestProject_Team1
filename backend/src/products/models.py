@@ -72,7 +72,7 @@ class Photo(models.Model):
         on_delete=models.CASCADE
     )
     image = models.ImageField(
-        default="products/no_image.png",
+        default="product/no_image.png",
         blank=True,
         upload_to=upload_to,
         verbose_name="Image"
@@ -93,7 +93,7 @@ class Category(models.Model):
         if self.parent is None:
             return self.name
         else:
-            return self.parent.get_categories() + ' -> ' + self.name
+            return f'{self.parent} -> {self.name}'
 
     def __str__(self):
         return self.get_categories()

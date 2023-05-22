@@ -218,7 +218,7 @@
 
 ### Make products order
 
-- URL: `http://api.example.com/api/v1/product/makeorder`
+- URL: `http://api.example.com/api/v1/makeorder`
 - Method: POST
 
 **Request**

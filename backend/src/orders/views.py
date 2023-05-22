@@ -4,12 +4,17 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from products.models import Product, Size
 from .models import Order, OrderItem
 
 
 class CreateOrderAPIView(APIView):
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
     def post(self, request):
         order = Order.objects.create(user=request.user)
         ordered_items = []

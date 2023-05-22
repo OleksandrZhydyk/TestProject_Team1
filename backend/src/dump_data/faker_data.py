@@ -1,9 +1,11 @@
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
+from faker import Faker
+
 from accounts.models import Comment
 from products.models import Product, Size, Category
-from faker import Faker
+
 
 fake = Faker("uk_UA")
 
@@ -53,16 +55,17 @@ def create_fake_comments(num_comments=1):
 
 def create_fake_categories():
     categories = {
-        "Одяг": ["Сукні", "Футболки", "Штани", "Светри", "Шорти"],
+        "Одяг": ["Сукні", "Футболки", "Штани", "Светри", "Шорти"]
     }
 
     parent = Category.objects.create(name="Одяг", parent=None, slug=fake.slug())
-    for sub_category in categories["Одяг"]:
-        Category.objects.create(name=sub_category, parent=parent, slug=fake.slug())
+    for category in categories:
+        for sub_category in categories[category]:
+            Category.objects.create(name=sub_category, parent=parent, slug=fake.slug())
 
 
 def create_fake_products(num_products=1):
-    categories = Category.objects.all()
+    categories = Category.objects.exclude(parent__isnull=True).all()
     if not categories.exists():
         print("No categories found in the database. Please create categories first.")
         return
@@ -71,12 +74,11 @@ def create_fake_products(num_products=1):
     season_choices = ["Осінь/Зима", "Весна/Літо"]
 
     for _ in range(num_products):
-        name = fake.name()
         price = fake.pydecimal(left_digits=3, right_digits=2, min_value=0.01)
         description = fake.paragraph(nb_sentences=3, variable_nb_sentences=True)
         slug = fake.slug()
         category = fake.random_element(categories)
-
+        name = category.name
         sex_and_age = fake.random_element(sex_and_age_choices)
         season = fake.random_element(season_choices)
 
@@ -92,8 +94,8 @@ def create_fake_products(num_products=1):
 
 
 def create_fake_sizes():
-    sizes = ["S", "M", "L"]
-    colors = ["Білий", "Червоний", "Синій", "Зелений", "Жовтий", "Рожевий"]
+    sizes = ["XS", "S", "M", "L", "XL"]
+    colors = ["Білий", "Червоний", "Синій", "Зелений", "Жовтий", "Рожевий", "Помаранчевий"]
 
     products = Product.objects.all()
     for product in products:

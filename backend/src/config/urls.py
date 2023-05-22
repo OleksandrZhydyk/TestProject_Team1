@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from products.views import fill_database
+from dump_data.views import fill_database
 
 api_urlpatterns = [
     path('', include('accounts.urls'), name='auth'),
@@ -10,5 +10,5 @@ api_urlpatterns = [
 urlpatterns = [
     path("api/v1/", include(api_urlpatterns)),
     path("admin/", admin.site.urls),
-    path('fill-database/', fill_database, name='fill_database'),
+    path('fill-database/<int:prod_qty>', fill_database, name='fill_database'),
 ]

@@ -9,7 +9,7 @@ from .serializers import UserSerializer
 from .permissions import IsUnauthenticated, IsOwnerOrStaff
 
 from django.http import HttpResponse
-from faker_data import create_fake_users
+from dump_data.faker_data import create_fake_users
 
 
 class UserRegistrationAPIView(APIView):

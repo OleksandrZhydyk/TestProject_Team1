@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Menu, MenuItem, MenuSVG } from "./Header.styled";
-import sprite from "../../images/svg-sprite/MainSVG.svg";
+import sprite from "../../images/svg-sprite/MenuSVG.svg";
 import { Link } from "react-router-dom";
 import RegLogModal from "../../container/RegLogModal";
 

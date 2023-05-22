@@ -1,78 +1,169 @@
 /* Reset CSS (start) */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
+
+html,
 body {
-	line-height: 1;
+  line-height: 1;
+  height: 100%;
+  margin: 0;
 }
-ol, ul {
-	list-style: none;
+
+#root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
-blockquote, q {
-	quotes: none;
+ol,
+ul {
+  list-style: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 /* Reset CSS (end) */
 
 @font-face {
-	font-family: "MontserratRegular";
-	src: local("MontserratRegular"),url('./fonts/Montserrat-Regular.ttf');
-	font-weight: normal;
-	font-style: normal;
+  font-family: "MontserratRegular";
+  src: local("MontserratRegular"), url("./fonts/Montserrat-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
 }
 @font-face {
-	font-family: "MontserratBold";
-	src: local("MontserratBold"),url('./fonts/Montserrat-Bold.ttf');
-	font-weight: 700;
-	font-style: normal;
+  font-family: "MontserratBold";
+  src: local("MontserratBold"), url("./fonts/Montserrat-Bold.ttf");
+  font-weight: 700;
+  font-style: normal;
 }
 @font-face {
-	font-family: "MontserratSemi-Bold";
-	src: local("MontserratSemi-Bold"),url('./fonts/Montserrat-Semi-Bold.ttf');
-	font-weight: 600;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: "NEXT-ART_BOLD";
-	src: local("NEXT-ART_BOLD"),url('./fonts/NEXT-ART_Bold.ttf');
-	font-weight: 700;
-	font-style: normal;
+  font-family: "MontserratSemi-Bold";
+  src: local("MontserratSemi-Bold"), url("./fonts/Montserrat-Semi-Bold.ttf");
+  font-weight: 600;
+  font-style: normal;
 }
 
 @font-face {
-	font-family: "NEXT-ART_Heavy";
-	src: local("NEXT-ART_Heavy"),url('./fonts/NEXT-ART_Heavy.ttf');
-	font-weight: 900;
-	font-style: normal;
+  font-family: "NEXT-ART_BOLD";
+  src: local("NEXT-ART_BOLD"), url("./fonts/NEXT-ART_Bold.ttf");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NEXT-ART_Heavy";
+  src: local("NEXT-ART_Heavy"), url("./fonts/NEXT-ART_Heavy.ttf");
+  font-weight: 900;
+  font-style: normal;
 }

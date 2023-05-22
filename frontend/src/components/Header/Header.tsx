@@ -1,5 +1,5 @@
 import React from "react";
-import sprite from "../../images/svg-sprite/MainSVG.svg";
+import sprite from "../../images/svg-sprite/MenuSVG.svg";
 import { LogoSVG, HeaderP, Nav } from "./Header.styled";
 import { Container } from "../styles/container.styled.js";
 import { Link } from "react-router-dom";

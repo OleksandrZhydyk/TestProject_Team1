@@ -41,7 +41,16 @@
 ```json
 {
   "access": "string",
-  "refresh": "string"
+  "refresh": "string",
+  "user": {
+    "id": "int",
+    "username": "string",
+    "email": "string",
+    "first_name": "string",
+    "last_name": "string",
+    "is_active": "bool",
+    "is_superuser": "bool"
+  }
 }
 ```
 
@@ -77,10 +86,10 @@
   "id": "int",
   "username": "string",
   "email": "string",
-  "is_active": "bool",
-  "is_superuser": "bool",
   "first_name": "string",
-  "last_name": "string"
+  "last_name": "string",
+  "is_active": "bool",
+  "is_superuser": "bool"
 }
 ```
 

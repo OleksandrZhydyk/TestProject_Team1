@@ -16,6 +16,13 @@
 }
 ```
 
+**Response**
+```json
+{
+  "message": "Successfully registered"
+}
+```
+
 ### User Log In
 
 - URL: `http://api.example.com/api/v1/auth/login/`
@@ -34,7 +41,16 @@
 ```json
 {
   "access": "string",
-  "refresh": "string"
+  "refresh": "string",
+  "user": {
+    "id": "int",
+    "username": "string",
+    "email": "string",
+    "first_name": "string",
+    "last_name": "string",
+    "is_active": "bool",
+    "is_superuser": "bool"
+  }
 }
 ```
 
@@ -47,20 +63,20 @@
 
 ```json
 {
-  "refresh_token": "string"
+  "refresh": "string"
 }
 ```
 
 **Response**
 ```json
 {
-  "access_token": "string"
+  "access": "string"
 }
 ```
 
 ### Get User Data
 
-- URL: `http://api.example.com/api/v1/user/{id}`
+- URL: `http://api.example.com/api/v1/me`
 - Method: GET
 
 **Response**
@@ -70,10 +86,10 @@
   "id": "int",
   "username": "string",
   "email": "string",
-  "is_active": "bool",
-  "is_superuser": "bool",
   "first_name": "string",
-  "last_name": "string"
+  "last_name": "string",
+  "is_active": "bool",
+  "is_superuser": "bool"
 }
 ```
 
@@ -91,18 +107,38 @@
   "previous": "http://api.example.org/api/v1/product/?page=3",
   "results": [
     {
+      "id": "int",
       "name": "string",
       "price": "int",
       "description": "string",
-      "created_at": "YYYY-MM-DDTHH:mm:ss.sssZ",
-      "updated_at": "YYYY-MM-DDTHH:mm:ss.sssZ",
-      "images": [
-        "img_urls"
-      ]
+      "sex_and_age": "string",
+      "season": "string",
+      "created_at": "YYYY-MM-DDTHH:mm:ss.ssssssZ",
+      "updated_at": "YYYY-MM-DDTHH:mm:ss.ssssssZ",
+      "photos": [
+        {
+          "name": "string",
+          "image": "img_url"
+        }
+      ],
+      "category": {
+        "name": "string",
+        "slug": "string"
+      }
     }
   ]
 }
 ```
+
+#### Filter fields
+* season
+* sex_and_age
+* category
+* min_price
+* max_price
+
+#### Search field
+* name
 
 ### Get product Data
 
@@ -114,28 +150,55 @@
 ```json
 
 {
-  "name": "string",
-  "price": "int",
-  "description": "string",
-  "created_at": "YYYY-MM-DDTHH:mm:ss.sssZ",
-  "updated_at": "YYYY-MM-DDTHH:mm:ss.sssZ",
-  "sizes": [
-    "string"
-  ],
-  "images": [
-    "img_urls"
-  ],
-  "comments": [
-    {
-      "user": {
-        "username": "string",
-        "first_name": "string",
-        "last_name": "string"
-      },
-      "text": "string",
-      "created_at": "YYYY-MM-DDTHH:mm:ss.sssZ"
-    }
-  ]
+    "id": "int",
+    "photos": [
+        {
+            "name": "string",
+            "image": "img_url"
+        },
+        {
+            "name": "string",
+            "image": "img_url"
+        },
+        {
+            "name": "string",
+            "image": "img_url"
+        }
+    ],
+    "sizes": [
+        {
+            "size": "string",
+            "color": "string",
+            "stock_quantity": "int"
+        },
+        {
+            "size": "string",
+            "color": "string",
+            "stock_quantity": "int"
+        }
+    ],
+    "category": {
+        "name": "string",
+        "slug": "string"
+    },
+    "comments": [
+        {
+            "text": "string",
+            "created_at": "YYYY-MM-DDTHH:mm:ss.ssssssZ"
+        },
+        {
+            "text": "string",
+            "created_at": "YYYY-MM-DDTHH:mm:ss.ssssssZ"
+        }
+    ],
+    "name": "string",
+    "price": "float",
+    "description": "string",
+    "created_at": "YYYY-MM-DDTHH:mm:ss.ssssssZ",
+    "updated_at": "YYYY-MM-DDTHH:mm:ss.ssssssZ",
+    "slug": "string",
+    "sex_and_age": "string",
+    "season": "string"
 }
 ```
 
@@ -160,4 +223,30 @@
     ]
   }
 ]
+```
+
+### Make products order
+
+- URL: `http://api.example.com/api/v1/product/makeorder`
+- Method: POST
+
+**Request**
+
+```json
+[
+  {
+    "id": "int",
+    "slug": "string",
+    "quantity": "int",
+    "color": "string",
+    "size": "string"
+  }
+]
+```
+
+**Response**
+```json
+{
+  "message": "Successfully ordered"
+}
 ```

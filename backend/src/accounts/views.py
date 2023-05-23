@@ -2,11 +2,15 @@ from django.contrib.auth.models import User
 
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateAPIView
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .serializers import UserSerializer
-from .permissions import IsUnauthenticated, IsOwnerOrStaff
+from .permissions import IsUnauthenticated
+
+from django.http import HttpResponse
+from dump_data.faker_data import create_fake_users
 
 
 class UserRegistrationAPIView(APIView):
@@ -21,6 +25,13 @@ class UserRegistrationAPIView(APIView):
 
 
 class UserAPIView(RetrieveUpdateAPIView):
-    queryset = User.objects.all()
-    permission_classes = (IsOwnerOrStaff,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
+def fake_users_view(request, num_users):
+    create_fake_users(num_users)
+    return HttpResponse(f"Fake users created: {num_users}!")

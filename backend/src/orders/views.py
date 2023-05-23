@@ -16,7 +16,6 @@ class CreateOrderAPIView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        order = Order.objects.create(user=request.user)
         ordered_items = []
         insufficient_stock_items = []
 
@@ -27,7 +26,6 @@ class CreateOrderAPIView(APIView):
 
             if item["quantity"] <= size.stock_quantity:
                 order_item = {
-                    "order": order,
                     "name": product.name,
                     "color": item["color"],
                     "size": item["size"],
@@ -56,7 +54,8 @@ class CreateOrderAPIView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
-
+        
+        order = Order.objects.create(user=request.user)
         OrderItem.objects.bulk_create(
-            [OrderItem(**item) for item in ordered_items])
+            [OrderItem(**item, order=order) for item in ordered_items])
         return Response({"message": "Successfully ordered"})

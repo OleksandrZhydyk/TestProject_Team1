@@ -6,7 +6,7 @@ from .serializers import CustomTokenObtainPairSerializer
 
 
 urlpatterns = [
-    path("user/<int:pk>/", UserAPIView.as_view()),
+    path("me/", UserAPIView.as_view()),
     path("auth/register/", UserRegistrationAPIView.as_view()),
     path("auth/login/", TokenObtainPairView.as_view(serializer_class=CustomTokenObtainPairSerializer)),
     path("auth/refresh/", TokenRefreshView.as_view()),

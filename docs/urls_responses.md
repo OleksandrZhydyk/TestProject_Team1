@@ -251,12 +251,11 @@
 
 **Response**
 ```json
-{
-  "orders": [
+[
     {
       "id": "int",
       "created_at": "YYYY-MM-DDTHH:mm:ss.ssssssZ",
-      "updated_at": "YYYY-MM-DDTHH:mm:ss.ssssssZ",
+      "ordered_at": "YYYY-MM-DDTHH:mm:ss.ssssssZ" or null,
       "is_ordered": "bool",
       "items": [
         {
@@ -274,5 +273,5 @@
       ]
     }
   ]
-}
+
 ```

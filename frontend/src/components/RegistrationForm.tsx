@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useAppDispatch } from "../store/store";
 
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,6 +11,7 @@ import {
   TextField,
   DialogContent
 } from "@mui/material";
+import { authActions } from "../store/slices/authSlice";
 
 const StyledForm = styled.form`
   display: flex;
@@ -51,14 +53,20 @@ const schema = yup.object({
 
 const RegistrationForm = ({ setIsOpenModal, setIsOpenLoginForm }: RegFormProps) => {
 
+  const dispatch = useAppDispatch();
+
   const {register, handleSubmit, formState: { errors, isValid }} = useForm<FormValues>({
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
 
   const onSubmit: SubmitHandler<FormValues> = data => {
-    console.log(data)
     setIsOpenModal(false);
+    dispatch(authActions.register(data));
+    dispatch(authActions.login({
+      username: data.username,
+      password: data.password,
+    }));
   };
 
   const handleClose = () => {

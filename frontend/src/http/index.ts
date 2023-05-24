@@ -8,7 +8,9 @@ const api = axios.create({
 
 // adds auth header when requesting from server
 api.interceptors.request.use((config) => {
-  config.headers.Authorization = `Bearer ${localStorage.getItem("access")}`;
+  if (localStorage.getItem("access")) {
+    config.headers.Authorization = `Bearer ${localStorage.getItem("access")}`;
+  }
   return config;
 });
 

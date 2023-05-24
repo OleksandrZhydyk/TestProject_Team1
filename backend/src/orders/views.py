@@ -1,14 +1,16 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from products.models import Product, Size
 from .models import Order, OrderItem
+from .serializers import OrderSerializer
 
 
 class CreateOrderAPIView(APIView):
@@ -59,3 +61,12 @@ class CreateOrderAPIView(APIView):
         OrderItem.objects.bulk_create(
             [OrderItem(**item, order=order) for item in ordered_items])
         return Response({"message": "Successfully ordered"})
+
+
+class OrderListAPIView(ListAPIView):
+    authentication_classes = (JWTAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)

@@ -1,3 +1,5 @@
+import { UserData } from "./userModel";
+
 // user registration and log in request data
 export interface UserAuthorization {
   username: string;
@@ -12,6 +14,7 @@ export interface StandartResponse {
 
 // log in response
 export interface ResponseLogIn {
+  user: UserData;
   access: string;
   refresh: string;
 }

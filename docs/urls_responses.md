@@ -227,7 +227,7 @@
 
 ### Make products order
 
-- URL: `http://api.example.com/api/v1/product/makeorder`
+- URL: `http://api.example.com/api/v1/makeorder`
 - Method: POST
 
 **Request**
@@ -237,6 +237,7 @@
   {
     "id": "int",
     "slug": "string",
+    "price": "int",
     "quantity": "int",
     "color": "string",
     "size": "string"
@@ -249,4 +250,38 @@
 {
   "message": "Successfully ordered"
 }
+```
+
+### Get user orders
+
+- URL: `http://api.example.com/api/v1/orders`
+- Method: GET
+- Headers:
+  - Authorization: Bearer [access_token]
+
+**Response**
+```json
+[
+    {
+      "id": "int",
+      "created_at": "YYYY-MM-DDTHH:mm:ss.ssssssZ",
+      "ordered_at": "YYYY-MM-DDTHH:mm:ss.ssssssZ" or null,
+      "is_ordered": "bool",
+      "items": [
+        {
+          "id": "int",
+          "name": "string",
+          "color": "string",
+          "size": "string",
+          "sex_and_age": "string",
+          "season": "string",
+          "description": "string",
+          "price": "float",
+          "quantity": "int",
+          "category": "string"
+        }
+      ]
+    }
+  ]
+
 ```

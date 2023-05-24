@@ -2,10 +2,8 @@
 import axios from "axios";
 import { AccessToken } from "../models/authModels";
 
-export const API_URL = "http://ec2-52-90-252-13.compute-1.amazonaws.com/api/v1";
-
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 // adds auth header when requesting from server
@@ -29,7 +27,7 @@ api.interceptors.response.use(
       originalRequest._isRetry = true;
       try {
         const response = await axios.post<AccessToken>(
-          `${API_URL}/auth/refresh/`,
+          `${import.meta.env.VITE_API_URL}/auth/refresh/`,
           { refresh: localStorage.getItem("refresh") }
         );
         localStorage.setItem("access", response.data.access);

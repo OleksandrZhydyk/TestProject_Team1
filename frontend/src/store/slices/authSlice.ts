@@ -3,17 +3,14 @@ import axios from "axios";
 import AuthService from "../services/AuthService";
 import { AccessToken, UserAuthorization } from "../../models/authModels";
 import { UserData } from "../../models/userModel";
-import { API_URL } from "../../http";
 interface AuthState {
   user: UserData | null;
-  isLogged: boolean;
   loading: boolean;
   error: string;
 }
 
 const initialAuthState: AuthState = {
   user: null,
-  isLogged: false,
   loading: false,
   error: "",
 };
@@ -23,8 +20,6 @@ export const login = createAsyncThunk(
   "auth/login",
   async ({ username, password }: UserAuthorization) => {
     const response = await AuthService.login({ username, password });
-    localStorage.setItem("access", response.data.access);
-    localStorage.setItem("refresh", response.data.refresh);
     return response.data;
   }
 );
@@ -44,7 +39,7 @@ export const register = createAsyncThunk(
 
 // thunk for updating access token
 export const checkAuth = createAsyncThunk("auth/checkAuth", async () => {
-  const response = await axios.post<AccessToken>(`${API_URL}/auth/refresh/`, {
+  const response = await axios.post<AccessToken>(`${import.meta.env.VITE_API_URL}/auth/refresh/`, {
     refresh: localStorage.getItem("refresh"),
   });
   localStorage.setItem("access", response.data.access);
@@ -57,7 +52,6 @@ const AuthSlice = createSlice({
   reducers: {
     // action for logout, clearing the state
     logout: (state) => {
-      state.isLogged = false;
       state.error = "";
       state.loading = false;
       state.user = null;
@@ -69,55 +63,43 @@ const AuthSlice = createSlice({
     builder.addCase(login.pending, (state) => {
       state.loading = true;
       state.error = "";
-      state.isLogged = false;
       state.user = null;
     });
     builder.addCase(login.fulfilled, (state, action) => {
+      localStorage.setItem("access", action.payload.access);
+      localStorage.setItem("refresh", action.payload.refresh);
       state.loading = false;
-      state.error = "";
-      state.isLogged = true;
       state.user = action.payload.user;
     });
     builder.addCase(login.rejected, (state, action) => {
       state.loading = false;
-      state.isLogged = false;
-      state.user = null;
       if (action.error.message) state.error = action.error.message;
     });
     builder.addCase(register.pending, (state) => {
       state.user = null;
       state.loading = true;
       state.error = "";
-      state.isLogged = false;
     });
     builder.addCase(register.fulfilled, (state) => {
-      state.user = null;
       state.loading = false;
-      state.error = "";
-      state.isLogged = false;
     });
     builder.addCase(register.rejected, (state, action) => {
-      state.user = null;
       state.loading = false;
-      state.isLogged = false;
       if (action.error.message) state.error = action.error.message;
     });
     builder.addCase(checkAuth.pending, (state) => {
       state.loading = true;
       state.error = "";
-      state.isLogged = false;
     });
     builder.addCase(checkAuth.fulfilled, (state) => {
       state.loading = false;
-      state.error = "";
-      state.isLogged = false;
     });
     builder.addCase(checkAuth.rejected, (state, action) => {
       state.loading = false;
-      state.isLogged = false;
       if (action.error.message) state.error = action.error.message;
     });
   },
 });
 
 export default AuthSlice.reducer;
+export const { logout } = AuthSlice.actions;

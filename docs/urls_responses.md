@@ -227,7 +227,7 @@
 
 ### Make products order
 
-- URL: `http://api.example.com/api/v1/product/makeorder`
+- URL: `http://api.example.com/api/v1/makeorder`
 - Method: POST
 
 **Request**
@@ -237,6 +237,7 @@
   {
     "id": "int",
     "slug": "string",
+    "price": "int",
     "quantity": "int",
     "color": "string",
     "size": "string"

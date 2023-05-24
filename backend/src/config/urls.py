@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
 from dump_data.views import fill_database
+from django.conf import settings
 
-from config import settings
 from orders.views import OrderListAPIView
-
 from orders.views import CreateOrderAPIView
+
 
 api_urlpatterns = [
     path('', include('accounts.urls'), name='auth'),

@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  backend:
+    build: ./backend
+    container_name: backend
+    command:
+      - ./commands/start_server_${MODE}.sh
+    expose:
+      - 8000
+    restart: always
+    volumes:
+      - ./backend:/backend
+      - static_content:/backend/src/static/
+      - media_content:/backend/src/media/
+    env_file:
+      - .env
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+      - static_content:/backend/src/static/
+      - media_content:/backend/src/media/
+    ports:
+      - "80:80"
+    restart: on-failure
+    depends_on:
+      - backend
+
+volumes:
+  static_content: { }
+  media_content: { }

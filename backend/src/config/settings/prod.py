@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["ec2-52-90-252-13.compute-1.amazonaws.com", "52.90.252.13", "localhost"]
+ALLOWED_HOSTS = ["ec2-52-90-252-13.compute-1.amazonaws.com", "52.90.252.13"]
 
 # Application definition
 
@@ -137,8 +137,7 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://ec2-52-90-252-13.compute-1.amazonaws.com",
-    "http://52.90.252.13",
-    "http://localhost"
+    "http://52.90.252.13"
 ]
 
 CORS_ALLOW_HEADERS = [

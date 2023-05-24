@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from dump_data.views import fill_database
+from django.conf import settings
 
-from config import settings
 
 api_urlpatterns = [
     path('', include('accounts.urls'), name='auth'),

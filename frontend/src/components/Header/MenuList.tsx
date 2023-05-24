@@ -29,7 +29,7 @@ export const MenuList: React.FC = () => {
         </Link>
       </MenuItem>
 
-      <MenuItem onClick={handleClickOpen} aria-label="login">
+      <MenuItem onClick={handleClickOpen}>
         <RegLogModal
           isOpenModal={isOpenModal}
           setIsOpenModal={setIsOpenModal}

@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 import {
   Button,
   Typography,
@@ -18,7 +21,7 @@ const StyledForm = styled.form`
 `;
   
 type RegFormProps = {
-  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>
+  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>,
   setIsOpenLoginForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -28,13 +31,40 @@ type FormValues = {
   password_confirm: string
 }
 
+const schema = yup.object({
+  username: yup.string().required().min(2, "min 2 symbol").max(60, "max 60 symbol"),
+  password: yup
+    .string()
+    .min(8, "min 8 symbol")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      "must contain one symbol(!,@,#), number, letter"
+    )
+    .required("validation:errors.email.required"),
+    password_confirm: yup
+    .string()
+    .oneOf(
+      [yup.ref("password")],
+      "does not match"
+    ),
+});
+
 const RegistrationForm = ({ setIsOpenModal, setIsOpenLoginForm }: RegFormProps) => {
 
-  const {register, handleSubmit} = useForm<FormValues>()
+  const {register, handleSubmit, formState: { errors, isValid }} = useForm<FormValues>({
+    mode: "onBlur",
+    resolver: yupResolver(schema),
+  });
+
   const onSubmit: SubmitHandler<FormValues> = data => {
     console.log(data)
     setIsOpenModal(false);
   };
+
+  const handleClose = () => {
+    console.log("close")
+    setIsOpenModal(false);
+  }
 
   return (
     <DialogContent sx={{ padding: "10%"}}>
@@ -49,6 +79,8 @@ const RegistrationForm = ({ setIsOpenModal, setIsOpenLoginForm }: RegFormProps) 
           type="text"
           size="small"
           placeholder="Name"
+          error={errors?.username ? true : false}
+          helperText={errors?.username ? errors?.username?.message : ""}
         />
         <TextField
           {...register("password")}
@@ -56,6 +88,8 @@ const RegistrationForm = ({ setIsOpenModal, setIsOpenLoginForm }: RegFormProps) 
           type="password"
           size="small"
           placeholder="Password"
+          error={errors?.password ? true : false}
+          helperText={errors?.password ? errors?.password?.message : ""}
         />
         <TextField
           {...register("password_confirm")}
@@ -63,15 +97,27 @@ const RegistrationForm = ({ setIsOpenModal, setIsOpenLoginForm }: RegFormProps) 
           type="password"
           size="small"
           placeholder="Confirm Password"
+          error={errors?.password_confirm ? true : false}
+          helperText={errors?.password_confirm ? errors?.password_confirm?.message : ""}
         />
+        
         <Button
           type="submit"
           fullWidth
           variant="contained"
+          disabled={!isValid}
         >
           Registration
         </Button>
+
+        <Button
+          onClick={handleClose}
+          fullWidth
+        >
+          Close
+        </Button>
       </StyledForm>
+
       <Typography variant="caption" gutterBottom>
         Already have account?
         <Button

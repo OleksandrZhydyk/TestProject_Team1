@@ -3,12 +3,14 @@ from django.urls import path, include
 from dump_data.views import fill_database
 
 from config import settings
+from orders.views import OrderListAPIView
 
 from orders.views import CreateOrderAPIView
 
 api_urlpatterns = [
     path('', include('accounts.urls'), name='auth'),
     path('product/', include('products.urls'), name="product"),
+    path('orders/', OrderListAPIView.as_view(), name="orders"),
     path('makeorder/', CreateOrderAPIView.as_view(), name="create_order")
 ]
 

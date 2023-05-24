@@ -21,14 +21,14 @@ interface Category {
 export interface ProductData {
   id: number;
   photos: Photo[];
-  sizes: Size[];
-  category: Category;
-  comments: [];
+  sizes?: Size[];
+  category?: Category;
+  comments?: [];
   name: string;
   price: number;
   description: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
   slug: string;
   sex_and_age: string;
   season: string;
@@ -37,14 +37,14 @@ export interface ProductData {
 // all products
 export interface Products {
   count: number;
-  next: string;
-  previous: string;
+  next: string | null;
+  previous: string | null;
   results: ProductData[];
 }
 
 // getting all product categories
-export interface ProductsCategories<T> {
+export interface ProductsCategories {
   name: string;
   slug: string;
-  sub_categories: ProductsCategories<T> | [];
+  sub_categories: Array<ProductsCategories> | [];
 }

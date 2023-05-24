@@ -8,11 +8,13 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
+// adds auth header when requesting from server
 api.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem("access")}`;
   return config;
 });
 
+// interceptor that checks whether login response is 401, if true - sends refresh token to update access token
 api.interceptors.response.use(
   (config) => {
     return config;

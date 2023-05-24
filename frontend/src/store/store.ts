@@ -3,9 +3,8 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/exports";
 import { TypedUseSelectorHook } from "react-redux/es/types";
 import AuthSlice from "./slices/authSlice";
-import UserSlice from "./slices/userSlice";
 
-const reducer = { auth: AuthSlice, user: UserSlice };
+const reducer = { auth: AuthSlice };
 
 const store = configureStore({
   reducer,

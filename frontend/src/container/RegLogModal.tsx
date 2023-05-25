@@ -37,7 +37,7 @@ type ModalProps = {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const RegLogModal = ({ isOpenModal, setIsOpenModal }: ModalProps) => {
+const RegLogModal:React.FC<ModalProps> = ({ isOpenModal, setIsOpenModal }) => {
   const [isOpenLoginForm, setIsOpenLoginForm] = useState<boolean>(false)
 
   const handleClose = () => {

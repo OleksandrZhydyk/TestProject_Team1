@@ -5,6 +5,7 @@ import {
   StandartResponse,
   UserAuthorization,
 } from "../../models/authModels";
+
 export default class AuthService {
   static async login({
     username,
@@ -18,7 +19,7 @@ export default class AuthService {
     password,
     password_confirm,
   }: UserAuthorization): Promise<AxiosResponse<StandartResponse>> {
-    return api.post<StandartResponse>("/auth/register", {
+    return api.post<StandartResponse>("/auth/register/", {
       username,
       password,
       password_confirm,

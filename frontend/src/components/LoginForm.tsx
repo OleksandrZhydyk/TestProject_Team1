@@ -1,5 +1,10 @@
 import styled from "styled-components";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useAppDispatch } from "../store/store";
+import { authActions } from "../store/slices/authSlice";
+
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import {
   Button,
@@ -26,14 +31,41 @@ type FormValues = {
   password: string
 }
 
+const schema = yup.object({
+  username: yup.string().required().min(2, "min 2 symbol").max(60, "max 60 symbol"),
+  password: yup
+    .string()
+    .min(8, "min 8 symbol")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      "must contain one symbol(!,@,#), number, letter"
+    )
+    .required("validation:errors.email.required"),
+});
+
 const LoginForm = ({ setIsOpenLoginForm, setIsOpenModal }: FormProps) => {
+
+  const dispatch = useAppDispatch();
   
-  const {register, handleSubmit} = useForm<FormValues>()
+  const {register, handleSubmit, formState: { errors, isValid }} = useForm<FormValues>({
+    mode: "onBlur",
+    resolver: yupResolver(schema),
+  });
+
   const onSubmit: SubmitHandler<FormValues> = data => {
-    console.log(data)
-    setIsOpenModal(false);
     setIsOpenLoginForm(false);
+    setIsOpenModal(false);
+    dispatch(authActions.login({
+      username: data.username,
+      password: data.password,
+    }));
   };
+
+  const handleClose = () => {
+    console.log("close")
+    setIsOpenLoginForm(false);
+    setIsOpenModal(false);
+  }
 
   return (
     <DialogContent sx={{ padding: "10%"}}>
@@ -48,6 +80,8 @@ const LoginForm = ({ setIsOpenLoginForm, setIsOpenModal }: FormProps) => {
           type="text"
           size="small"
           placeholder="Name"
+          error={errors?.username ? true : false}
+          helperText={errors?.username ? errors?.username?.message : ""}
         />
         <TextField
           {...register("password")}
@@ -55,16 +89,28 @@ const LoginForm = ({ setIsOpenLoginForm, setIsOpenModal }: FormProps) => {
           type="password"
           size="small"
           placeholder="Password"
+          error={errors?.password ? true : false}
+          helperText={errors?.password ? errors?.password?.message : ""}
         />
         
         <Button
           type="submit"
           fullWidth
           variant="contained"
+          disabled={!isValid}
         >
           Login
         </Button>
+
+        <Button
+          onClick={handleClose}
+          fullWidth
+        >
+          Close
+        </Button>
+
       </StyledForm>
+
     </DialogContent>
   );
 }

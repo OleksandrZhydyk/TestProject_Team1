@@ -5,6 +5,7 @@ import {
   StandartResponse,
   UserAuthorization,
 } from "../../models/authModels";
+
 export default class AuthService {
   static async login({
     username,

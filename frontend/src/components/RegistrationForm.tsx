@@ -40,7 +40,7 @@ const schema = yup.object({
     .min(8, "min 8 symbol")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-      "must contain one symbol(!,@,#), number, letter"
+      "must contain one symbol(!,@,#), number, uppercase letter"
     )
     .required("validation:errors.email.required"),
     password_confirm: yup
@@ -60,10 +60,11 @@ const RegistrationForm = ({ setIsOpenModal, setIsOpenLoginForm }: RegFormProps) 
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FormValues> = data => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsOpenModal(false);
-    dispatch(authActions.register(data));
-    dispatch(authActions.login({
+    const respons = await dispatch(authActions.register(data)).unwrap()
+    
+    if (respons.message) await dispatch(authActions.login({
       username: data.username,
       password: data.password,
     }));

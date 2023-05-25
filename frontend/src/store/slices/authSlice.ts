@@ -3,6 +3,7 @@ import axios from "axios";
 import AuthService from "../services/AuthService";
 import { AccessToken, UserAuthorization } from "../../models/authModels";
 import { UserData } from "../../models/userModel";
+
 interface AuthState {
   user: UserData | null;
   loading: boolean;

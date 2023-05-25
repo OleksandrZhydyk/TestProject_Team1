@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useAppDispatch } from "../store/store";
+import { authActions } from "../store/slices/authSlice";
 
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -42,6 +44,8 @@ const schema = yup.object({
 });
 
 const LoginForm = ({ setIsOpenLoginForm, setIsOpenModal }: FormProps) => {
+
+  const dispatch = useAppDispatch();
   
   const {register, handleSubmit, formState: { errors, isValid }} = useForm<FormValues>({
     mode: "onBlur",
@@ -49,9 +53,12 @@ const LoginForm = ({ setIsOpenLoginForm, setIsOpenModal }: FormProps) => {
   });
 
   const onSubmit: SubmitHandler<FormValues> = data => {
-    console.log(data)
     setIsOpenLoginForm(false);
     setIsOpenModal(false);
+    dispatch(authActions.login({
+      username: data.username,
+      password: data.password,
+    }));
   };
 
   const handleClose = () => {

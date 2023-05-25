@@ -16,7 +16,7 @@ const initialAuthState: AuthState = {
 };
 
 // login thunk, saves tokens in localstorage
-export const login = createAsyncThunk(
+const login = createAsyncThunk(
   "auth/login",
   async ({ username, password }: UserAuthorization) => {
     const response = await AuthService.login({ username, password });
@@ -25,7 +25,7 @@ export const login = createAsyncThunk(
 );
 
 // registration thunk
-export const register = createAsyncThunk(
+const register = createAsyncThunk(
   "auth/register",
   async ({ username, password, password_confirm }: UserAuthorization) => {
     const response = await AuthService.register({
@@ -38,7 +38,7 @@ export const register = createAsyncThunk(
 );
 
 // thunk for updating access token
-export const checkAuth = createAsyncThunk("auth/checkAuth", async () => {
+const checkAuth = createAsyncThunk("auth/checkAuth", async () => {
   const response = await axios.post<AccessToken>(`${import.meta.env.VITE_API_URL}/auth/refresh/`, {
     refresh: localStorage.getItem("refresh"),
   });
@@ -102,4 +102,9 @@ const AuthSlice = createSlice({
 });
 
 export default AuthSlice.reducer;
-export const { logout } = AuthSlice.actions;
+export const authActions = {
+  ...AuthSlice.actions,
+  register,
+  login,
+  checkAuth
+};

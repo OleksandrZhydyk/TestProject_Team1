@@ -1,6 +1,5 @@
 import React from "react";
 import { Products } from "../../../models/productModels";
-import photo from "../../../images/no-image.jpg";
 import sprite from "../../../images/svg-sprite/MenuSVG.svg";
 import styled from "styled-components";
 import { MenuSVG } from "../../Header/Header.styled";
@@ -17,41 +16,41 @@ export const NewArrivals: React.FC<Props> = ({ products }) => {
   if (!products?.results || products.results.length === 0) {
     return <p>No New Arrivals found.</p>;
   }
-  console.log(products.results);
   return (
     <NewArrivalsList>
-      {products.results.slice(2, 4).map(({ name, id, price, slug, photos }) => {
+      {products.results.slice(3, 5).map(({ name, id, price, slug, photos }) => {
         return (
           <NewArrivalsItem key={id}>
-            <RedirectLink
-              onClick={() => dispatch(getProductDetail(slug))}
-              to={`/product/${slug}`}
-            >
-              <ImageBlock>
-                <HeartBlock>
-                  <Link to="/">
-                    <MenuSVG>
-                      <use href={sprite + "#Heart"}></use>
-                    </MenuSVG>
-                  </Link>
-                </HeartBlock>
-                {photos[0].image ? (
-                  <Image src={photos[0].image} width="300" height="275" />
-                ) : (
-                  <Image src={photo} width="300" height="275" />
-                )}
-              </ImageBlock>
-
-              <ProductName>{name}</ProductName>
-              <PriceBlock>
-                <Price>{price} грн</Price>
+            <ImageBlock>
+              <HeartBlock>
                 <Link to="/">
                   <MenuSVG>
-                    <use href={sprite + "#Bag"}></use>
+                    <use href={sprite + "#Heart"}></use>
                   </MenuSVG>
                 </Link>
-              </PriceBlock>
-            </RedirectLink>
+              </HeartBlock>
+              <RedirectLink
+                onClick={() => dispatch(getProductDetail(slug))}
+                to={`/product/${slug}`}
+              >
+                <Image src={photos[0].image} width="300" height="275" />
+              </RedirectLink>
+            </ImageBlock>
+
+            <ProductName>{name}</ProductName>
+            <PriceBlock>
+              <RedirectLink
+                onClick={() => dispatch(getProductDetail(slug))}
+                to={`/product/${slug}`}
+              >
+                <Price>{price} грн</Price>
+              </RedirectLink>
+              <Link to="/">
+                <MenuSVG>
+                  <use href={sprite + "#Bag"}></use>
+                </MenuSVG>
+              </Link>
+            </PriceBlock>
           </NewArrivalsItem>
         );
       })}
@@ -83,7 +82,7 @@ const HeartBlock = styled.div`
 `;
 
 const Image = styled.img`
-  width: 422px;
+  min-width: 422px;
   height: 300px;
 `;
 const ImageBlock = styled.div`

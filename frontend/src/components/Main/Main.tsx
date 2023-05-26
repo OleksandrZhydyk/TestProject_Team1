@@ -59,6 +59,7 @@ export const Main: React.FC = () => {
   );
 };
 
+
 const BestSellersTitle = styled.div`
   margin-left: 275px;
   margin-bottom: 40px;
@@ -66,6 +67,7 @@ const BestSellersTitle = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
 const NewArrivalsTitle = styled.div`
   position: relative;
   margin-bottom: 40px;

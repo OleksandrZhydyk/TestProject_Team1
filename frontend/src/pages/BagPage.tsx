@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Container } from "../components/styles/container.styled";
 import BagSummary from "../components/BagSummary";
 import BagItem from "../components/BagItem";
+// import { useAppSelector } from "../store/store";
 
 const Header = styled.header`
   font-family: 'MontserratBold';
@@ -29,6 +30,11 @@ const Summary = styled.div`
 `;
 
 const BagPage = () => {
+
+  // const bagProducts = useAppSelector(
+  //   (store) => store.cart
+  // );
+
   return (
     <Container  >
       <Header>кошик</Header>

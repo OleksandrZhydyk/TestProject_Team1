@@ -17,35 +17,46 @@ export const NewArrivals: React.FC<Props> = ({ products }) => {
   console.log(products.results);
   return (
     <NewArrivalsList>
-      {products.results.slice(2, 4).map(({ name, id, price }) => {
+      {products.results.slice(2, 4).map(({ name, id, price, slug, photos }) => {
         return (
           <NewArrivalsItem key={id}>
-            <ImageBlock>
-              <HeartBlock>
+            <RedirectLink to={`/product/${slug}`}>
+              <ImageBlock>
+                <HeartBlock>
+                  <Link to="/">
+                    <MenuSVG>
+                      <use href={sprite + "#Heart"}></use>
+                    </MenuSVG>
+                  </Link>
+                </HeartBlock>
+                {photos[0].image ? (
+                  <Image src={photos[0].image} width="300" height="275" />
+                ) : (
+                  <Image src={photo} width="300" height="275" />
+                )}
+              </ImageBlock>
+
+              <ProductName>{name}</ProductName>
+              <PriceBlock>
+                <Price>{price} грн</Price>
                 <Link to="/">
                   <MenuSVG>
-                    <use href={sprite + "#Heart"}></use>
+                    <use href={sprite + "#Bag"}></use>
                   </MenuSVG>
                 </Link>
-              </HeartBlock>
-              <Image src={photo} width="422" height="300" />
-            </ImageBlock>
-
-            <ProductName>{name}</ProductName>
-            <PriceBlock>
-              <Price>{price} грн</Price>
-              <Link to="/">
-                <MenuSVG>
-                  <use href={sprite + "#Bag"}></use>
-                </MenuSVG>
-              </Link>
-            </PriceBlock>
+              </PriceBlock>
+            </RedirectLink>
           </NewArrivalsItem>
         );
       })}
     </NewArrivalsList>
   );
 };
+
+const RedirectLink = styled(Link)`
+  text-decoration: none;
+  color: #000;
+`;
 
 const NewArrivalsList = styled.ul`
   display: flex;

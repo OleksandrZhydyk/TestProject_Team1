@@ -18,28 +18,34 @@ export const Bestsellers: React.FC<Props> = ({ products }) => {
 
   return (
     <BestsellersList>
-      {products.results.slice(0, 3).map(({ name, id, price }) => {
+      {products.results.slice(0, 3).map(({ name, id, price, photos, slug }) => {
         return (
           <BestsellersItem key={id}>
-            <ImageBlock>
-              <HeartBlock>
+            <RedirectLink to={`/product/${slug}`}>
+              <ImageBlock>
+                <HeartBlock>
+                  <Link to="/">
+                    <MenuSVG>
+                      <use href={sprite + "#Heart"}></use>
+                    </MenuSVG>
+                  </Link>
+                </HeartBlock>
+                {photos[0].image ? (
+                  <Image src={photos[0].image} width="300" height="275" />
+                ) : (
+                  <Image src={photo} width="300" height="275" />
+                )}
+              </ImageBlock>
+              <ProductName>{name}</ProductName>
+              <PriceBlock>
+                <Price>{price} грн</Price>
                 <Link to="/">
                   <MenuSVG>
-                    <use href={sprite + "#Heart"}></use>
+                    <use href={sprite + "#Bag"}></use>
                   </MenuSVG>
                 </Link>
-              </HeartBlock>
-              <Image src={photo} width="300" height="275" />
-            </ImageBlock>
-            <ProductName>{name}</ProductName>
-            <PriceBlock>
-              <Price>{price} грн</Price>
-              <Link to="/">
-                <MenuSVG>
-                  <use href={sprite + "#Bag"}></use>
-                </MenuSVG>
-              </Link>
-            </PriceBlock>
+              </PriceBlock>
+            </RedirectLink>
           </BestsellersItem>
         );
       })}
@@ -57,6 +63,11 @@ const BestsellersItem = styled.li`
   &:last-child {
     margin-right: 0;
   }
+`;
+
+const RedirectLink = styled(Link)`
+  text-decoration: none;
+  color: #000;
 `;
 
 const HeartBlock = styled.div`

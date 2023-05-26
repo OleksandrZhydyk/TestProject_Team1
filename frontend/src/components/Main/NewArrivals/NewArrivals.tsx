@@ -2,7 +2,6 @@ import React from "react";
 import { Products } from "../../../models/productModels";
 import photo from "../../../images/no-image.jpg";
 import sprite from "../../../images/svg-sprite/MenuSVG.svg";
-
 import styled from "styled-components";
 import { MenuSVG } from "../../Header/Header.styled";
 import { Link } from "react-router-dom";
@@ -11,16 +10,16 @@ interface Props {
   products: Products | null;
 }
 
-export const Bestsellers: React.FC<Props> = ({ products }) => {
+export const NewArrivals: React.FC<Props> = ({ products }) => {
   if (!products?.results || products.results.length === 0) {
-    return <p>No bestsellers found.</p>;
+    return <p>No New Arrivals found.</p>;
   }
-
+  console.log(products.results);
   return (
-    <BestsellersList>
-      {products.results.slice(0, 3).map(({ name, id, price, photos, slug }) => {
+    <NewArrivalsList>
+      {products.results.slice(2, 4).map(({ name, id, price, slug, photos }) => {
         return (
-          <BestsellersItem key={id}>
+          <NewArrivalsItem key={id}>
             <RedirectLink to={`/product/${slug}`}>
               <ImageBlock>
                 <HeartBlock>
@@ -36,6 +35,7 @@ export const Bestsellers: React.FC<Props> = ({ products }) => {
                   <Image src={photo} width="300" height="275" />
                 )}
               </ImageBlock>
+
               <ProductName>{name}</ProductName>
               <PriceBlock>
                 <Price>{price} грн</Price>
@@ -46,28 +46,28 @@ export const Bestsellers: React.FC<Props> = ({ products }) => {
                 </Link>
               </PriceBlock>
             </RedirectLink>
-          </BestsellersItem>
+          </NewArrivalsItem>
         );
       })}
-    </BestsellersList>
+    </NewArrivalsList>
   );
 };
-
-const BestsellersList = styled.ul`
-  display: flex;
-  margin-bottom: 100px;
-`;
-
-const BestsellersItem = styled.li`
-  margin-right: 20px;
-  &:last-child {
-    margin-right: 0;
-  }
-`;
 
 const RedirectLink = styled(Link)`
   text-decoration: none;
   color: #000;
+`;
+
+const NewArrivalsList = styled.ul`
+  display: flex;
+  margin-bottom: 100px;
+`;
+
+const NewArrivalsItem = styled.li`
+  margin-right: 20px;
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 const HeartBlock = styled.div`
@@ -77,7 +77,7 @@ const HeartBlock = styled.div`
 `;
 
 const Image = styled.img`
-  width: 275px;
+  width: 422px;
   height: 300px;
 `;
 const ImageBlock = styled.div`

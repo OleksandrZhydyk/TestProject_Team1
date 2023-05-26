@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import styled from "styled-components";
 import * as yup from "yup";
 import { MenuSVG } from "../../Header/Header.styled";
@@ -12,7 +12,11 @@ export const Email: React.FC = () => {
     .email("Введіть коректну електронну пошту")
     .required("Введіть електронну пошту");
 
-  const onSubmit = (e: React.FormEvent) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
@@ -27,12 +31,20 @@ export const Email: React.FC = () => {
       .catch((error) => {
         console.error("Помилка перевірки електронної пошти:", error.message);
       });
+    setEmail("");
   };
 
   return (
     <Block>
       <Form onSubmit={onSubmit}>
-        <InputEmail type="text" name="email" id="name" placeholder="email" />
+        <InputEmail
+          type="text"
+          name="email"
+          id="name"
+          placeholder="email"
+          value={email}
+          onChange={handleChange}
+        />
         <BtnSubmit type="submit">
           <MenuSVG>
             <use href={sprite + "#ArrowRight"}></use>

@@ -5,47 +5,57 @@ import sprite from "../../../images/svg-sprite/MenuSVG.svg";
 import styled from "styled-components";
 import { MenuSVG } from "../../Header/Header.styled";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../../store/store";
+import { getProductDetail } from "../../../store/slices/productsSlice";
 
 interface Props {
   products: Products | null;
 }
 
 export const NewArrivals: React.FC<Props> = ({ products }) => {
+  const dispatch = useAppDispatch();
   if (!products?.results || products.results.length === 0) {
     return <p>No New Arrivals found.</p>;
   }
-  console.log(products.results);
   return (
     <NewArrivalsList>
-      {products.results.slice(2, 4).map(({ name, id, price, slug, photos }) => {
+      {products.results.slice(3, 5).map(({ name, id, price, slug, photos }) => {
         return (
           <NewArrivalsItem key={id}>
-            <RedirectLink to={`/product/${slug}`}>
-              <ImageBlock>
-                <HeartBlock>
-                  <Link to="/">
-                    <MenuSVG>
-                      <use href={sprite + "#Heart"}></use>
-                    </MenuSVG>
-                  </Link>
-                </HeartBlock>
+            <ImageBlock>
+              <HeartBlock>
+                <Link to="/">
+                  <MenuSVG>
+                    <use href={sprite + "#Heart"}></use>
+                  </MenuSVG>
+                </Link>
+              </HeartBlock>
+              <RedirectLink
+                onClick={() => dispatch(getProductDetail(slug))}
+                to={`/product/${slug}`}
+              >
                 {photos[0].image ? (
                   <Image src={photos[0].image} width="300" height="275" />
                 ) : (
                   <Image src={photo} width="300" height="275" />
                 )}
-              </ImageBlock>
+              </RedirectLink>
+            </ImageBlock>
 
-              <ProductName>{name}</ProductName>
-              <PriceBlock>
+            <ProductName>{name}</ProductName>
+            <PriceBlock>
+              <RedirectLink
+                onClick={() => dispatch(getProductDetail(slug))}
+                to={`/product/${slug}`}
+              >
                 <Price>{price} грн</Price>
-                <Link to="/">
-                  <MenuSVG>
-                    <use href={sprite + "#Bag"}></use>
-                  </MenuSVG>
-                </Link>
-              </PriceBlock>
-            </RedirectLink>
+              </RedirectLink>
+              <Link to="/">
+                <MenuSVG>
+                  <use href={sprite + "#Bag"}></use>
+                </MenuSVG>
+              </Link>
+            </PriceBlock>
           </NewArrivalsItem>
         );
       })}

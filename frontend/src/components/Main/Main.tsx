@@ -33,7 +33,7 @@ export const Main: React.FC = () => {
       <Container>
         <BestSellersTitle>
           <Title>БЕСТСЕЛЕРИ</Title>
-          <ShowAll to="/">показати всі</ShowAll>
+          <ShowAll to="/catalog">показати всі</ShowAll>
         </BestSellersTitle>
         <Block>
           <MenuBlock>
@@ -45,7 +45,7 @@ export const Main: React.FC = () => {
             <Bestsellers products={products} />
             <NewArrivalsTitle>
               <Title>НОВИНКИ</Title>
-              <ShowAll to="/">в каталог</ShowAll>
+              <ShowAll to="/catalog">в каталог</ShowAll>
             </NewArrivalsTitle>
             <NewArrivals products={products} />
             <Title>

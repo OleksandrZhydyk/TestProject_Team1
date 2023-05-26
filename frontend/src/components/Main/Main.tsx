@@ -33,7 +33,7 @@ export const Main: React.FC = () => {
       <Container>
         <BestSellersTitle>
           <Title>БЕСТСЕЛЕРИ</Title>
-          <ShowAll to="/">показати всі</ShowAll>
+          <ShowAll to="/catalog">показати всі</ShowAll>
         </BestSellersTitle>
         <Block>
           <MenuBlock>
@@ -45,7 +45,7 @@ export const Main: React.FC = () => {
             <Bestsellers products={products} />
             <NewArrivalsTitle>
               <Title>НОВИНКИ</Title>
-              <ShowAll to="/">в каталог</ShowAll>
+              <ShowAll to="/catalog">в каталог</ShowAll>
             </NewArrivalsTitle>
             <NewArrivals products={products} />
             <Title>
@@ -59,6 +59,7 @@ export const Main: React.FC = () => {
   );
 };
 
+
 const BestSellersTitle = styled.div`
   margin-left: 275px;
   margin-bottom: 40px;
@@ -66,6 +67,7 @@ const BestSellersTitle = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
 const NewArrivalsTitle = styled.div`
   position: relative;
   margin-bottom: 40px;

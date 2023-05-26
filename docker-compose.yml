@@ -2,6 +2,7 @@ version: "3"
 
 services:
   backend:
+    image: oleksandrzh/backend
     build: ./backend
     container_name: backend
     command:
@@ -17,6 +18,7 @@ services:
       - .env
 
   frontend:
+    image: oleksandrzh/frontend
     build:
       context: ./frontend
     container_name: frontend

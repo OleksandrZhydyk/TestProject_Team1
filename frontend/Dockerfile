@@ -3,10 +3,8 @@ FROM node:18.2.0-alpine as build
 RUN mkdir "frontend"
 WORKDIR /frontend
 
-ENV PATH /frontend/node_modules/.bin:$PATH
-
 COPY package.json ./package.json
-COPY tsconfig.json ./tsconfig.json
+COPY package-lock.json ./package-lock.json
 
 RUN npm install
 

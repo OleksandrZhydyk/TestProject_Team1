@@ -100,10 +100,13 @@ def create_fake_sizes():
     products = Product.objects.all()
     for product in products:
         for size in sizes:
-            for _ in range(2, 4):
+            product_colors = []
+            while len(product_colors) < 3:
                 color = fake.random_element(colors)
-                stock_quantity = fake.random_int(min=0, max=100)
-
+                if color in product_colors:
+                    continue
+                product_colors.append(color)
+                stock_quantity = fake.random_int(min=0, max=50)
                 Size.objects.create(
                     size=size,
                     color=color,

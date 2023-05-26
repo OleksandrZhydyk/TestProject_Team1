@@ -34,7 +34,7 @@ class CreateOrderAPIView(APIView):
                     "sex_and_age": product.sex_and_age,
                     "season": product.season,
                     "description": product.description,
-                    "price": float(item["price"]),
+                    "price": product.price,
                     "quantity": item["quantity"],
                     "category": product.category
                 }

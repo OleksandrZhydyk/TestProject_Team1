@@ -1,5 +1,5 @@
 // product photo
-interface Photo {
+export interface Photo {
   name: string;
   image: string;
 }

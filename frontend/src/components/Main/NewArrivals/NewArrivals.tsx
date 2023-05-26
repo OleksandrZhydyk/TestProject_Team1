@@ -5,12 +5,15 @@ import sprite from "../../../images/svg-sprite/MenuSVG.svg";
 import styled from "styled-components";
 import { MenuSVG } from "../../Header/Header.styled";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../../store/store";
+import { getProductDetail } from "../../../store/slices/productsSlice";
 
 interface Props {
   products: Products | null;
 }
 
 export const NewArrivals: React.FC<Props> = ({ products }) => {
+  const dispatch = useAppDispatch();
   if (!products?.results || products.results.length === 0) {
     return <p>No New Arrivals found.</p>;
   }
@@ -20,7 +23,10 @@ export const NewArrivals: React.FC<Props> = ({ products }) => {
       {products.results.slice(2, 4).map(({ name, id, price, slug, photos }) => {
         return (
           <NewArrivalsItem key={id}>
-            <RedirectLink to={`/product/${slug}`}>
+            <RedirectLink
+              onClick={() => dispatch(getProductDetail(slug))}
+              to={`/product/${slug}`}
+            >
               <ImageBlock>
                 <HeartBlock>
                   <Link to="/">

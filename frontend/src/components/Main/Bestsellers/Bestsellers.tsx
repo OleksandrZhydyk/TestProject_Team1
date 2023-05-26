@@ -6,12 +6,15 @@ import sprite from "../../../images/svg-sprite/MenuSVG.svg";
 import styled from "styled-components";
 import { MenuSVG } from "../../Header/Header.styled";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../../store/store";
+import { getProductDetail } from "../../../store/slices/productsSlice";
 
 interface Props {
   products: Products | null;
 }
 
 export const Bestsellers: React.FC<Props> = ({ products }) => {
+  const dispatch = useAppDispatch();
   if (!products?.results || products.results.length === 0) {
     return <p>No bestsellers found.</p>;
   }
@@ -21,7 +24,10 @@ export const Bestsellers: React.FC<Props> = ({ products }) => {
       {products.results.slice(0, 3).map(({ name, id, price, photos, slug }) => {
         return (
           <BestsellersItem key={id}>
-            <RedirectLink to={`/product/${slug}`}>
+            <RedirectLink
+              onClick={() => dispatch(getProductDetail(slug))}
+              to={`/product/${slug}`}
+            >
               <ImageBlock>
                 <HeartBlock>
                   <Link to="/">

@@ -1,10 +1,12 @@
-import Layout from "../container/Layout";
+import { Hero } from "../components/Hero/Hero";
+import { Main } from "../components/Main/Main";
 
 const HomePage = () => {
   return (
-    <Layout>
-      <div>HomePage</div>
-    </Layout>
+    <>
+      <Hero />
+      <Main />
+    </>
   );
 };
 

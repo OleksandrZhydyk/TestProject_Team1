@@ -14,7 +14,7 @@ export const MenuList: React.FC = () => {
   return (
     <Menu>
       <MenuItem>
-        <Link to="/">
+        <Link to="">
           <MenuSVG>
             <use href={sprite + "#Search"}></use>
           </MenuSVG>
@@ -42,7 +42,7 @@ export const MenuList: React.FC = () => {
       </MenuItem>
 
       <MenuItem>
-        <Link to="/">
+        <Link to="bag">
           <MenuSVG>
             <use href={sprite + "#Bag"}></use>
           </MenuSVG>

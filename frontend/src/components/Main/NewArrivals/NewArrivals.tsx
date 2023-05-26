@@ -2,7 +2,6 @@ import React from "react";
 import { Products } from "../../../models/productModels";
 import photo from "../../../images/no-image.jpg";
 import sprite from "../../../images/svg-sprite/MenuSVG.svg";
-
 import styled from "styled-components";
 import { MenuSVG } from "../../Header/Header.styled";
 import { Link } from "react-router-dom";
@@ -13,17 +12,16 @@ interface Props {
   products: Products | null;
 }
 
-export const Bestsellers: React.FC<Props> = ({ products }) => {
+export const NewArrivals: React.FC<Props> = ({ products }) => {
   const dispatch = useAppDispatch();
   if (!products?.results || products.results.length === 0) {
-    return <p>No bestsellers found.</p>;
+    return <p>No New Arrivals found.</p>;
   }
-
   return (
-    <BestsellersList>
-      {products.results.slice(0, 3).map(({ name, id, price, photos, slug }) => {
+    <NewArrivalsList>
+      {products.results.slice(3, 5).map(({ name, id, price, slug, photos }) => {
         return (
-          <BestsellersItem key={id}>
+          <NewArrivalsItem key={id}>
             <ImageBlock>
               <HeartBlock>
                 <Link to="/">
@@ -43,42 +41,43 @@ export const Bestsellers: React.FC<Props> = ({ products }) => {
                 )}
               </RedirectLink>
             </ImageBlock>
-            <RedirectLink
-              onClick={() => dispatch(getProductDetail(slug))}
-              to={`/product/${slug}`}
-            >
-              <ProductName>{name}</ProductName>
-            </RedirectLink>
+
+            <ProductName>{name}</ProductName>
             <PriceBlock>
-              <Price>{price} грн</Price>
+              <RedirectLink
+                onClick={() => dispatch(getProductDetail(slug))}
+                to={`/product/${slug}`}
+              >
+                <Price>{price} грн</Price>
+              </RedirectLink>
               <Link to="/">
                 <MenuSVG>
                   <use href={sprite + "#Bag"}></use>
                 </MenuSVG>
               </Link>
             </PriceBlock>
-          </BestsellersItem>
+          </NewArrivalsItem>
         );
       })}
-    </BestsellersList>
+    </NewArrivalsList>
   );
 };
-
-const BestsellersList = styled.ul`
-  display: flex;
-  margin-bottom: 100px;
-`;
-
-const BestsellersItem = styled.li`
-  margin-right: 20px;
-  &:last-child {
-    margin-right: 0;
-  }
-`;
 
 const RedirectLink = styled(Link)`
   text-decoration: none;
   color: #000;
+`;
+
+const NewArrivalsList = styled.ul`
+  display: flex;
+  margin-bottom: 100px;
+`;
+
+const NewArrivalsItem = styled.li`
+  margin-right: 20px;
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 const HeartBlock = styled.div`
@@ -88,7 +87,7 @@ const HeartBlock = styled.div`
 `;
 
 const Image = styled.img`
-  width: 275px;
+  width: 422px;
   height: 300px;
 `;
 const ImageBlock = styled.div`

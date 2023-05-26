@@ -1,6 +1,5 @@
 import React from "react";
 import { Products } from "../../../models/productModels";
-import photo from "../../../images/no-image.jpg";
 import sprite from "../../../images/svg-sprite/MenuSVG.svg";
 import styled from "styled-components";
 import { MenuSVG } from "../../Header/Header.styled";
@@ -34,11 +33,7 @@ export const NewArrivals: React.FC<Props> = ({ products }) => {
                 onClick={() => dispatch(getProductDetail(slug))}
                 to={`/product/${slug}`}
               >
-                {photos[0].image ? (
-                  <Image src={photos[0].image} width="300" height="275" />
-                ) : (
-                  <Image src={photo} width="300" height="275" />
-                )}
+                <Image src={photos[0].image} width="300" height="275" />
               </RedirectLink>
             </ImageBlock>
 
@@ -87,7 +82,7 @@ const HeartBlock = styled.div`
 `;
 
 const Image = styled.img`
-  width: 422px;
+  min-width: 422px;
   height: 300px;
 `;
 const ImageBlock = styled.div`

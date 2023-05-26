@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import HomePage from "./pages/HomePage";
+import { Catalog } from "./components/Catalog/Catalog";
 
 const App = () => {
   return (
@@ -8,6 +9,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route path="catalog" element={<Catalog />} />
         </Route>
       </Routes>
     </Router>

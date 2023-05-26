@@ -28,8 +28,6 @@ export const Main: React.FC = () => {
     fetchProducts();
   }, [dispatch]);
 
-  console.log(products);
-
   return (
     <Section>
       <Container>

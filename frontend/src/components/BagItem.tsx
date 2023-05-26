@@ -25,15 +25,15 @@ const CountCell = styled.div`
 const BagItem = () => {
   
   return (
-    <Card sx={{ display: 'flex', flexDirection: 'row' }}>
+    <Card sx={{ display: 'flex', flexDirection: 'row', height: "177px" }}>
       <CardMedia
         component="img"
         sx={{ width: "33%" }}
-        image="/static/images/cards/live-from-space.jpg"
+        image="/src/images/hero/main-img.jpg"
       />
       
       
-        <CardContent sx={{ display: 'flex', justifyContent: "center", flexDirection: 'column', width: "63%", p: 0 }}>
+        <CardContent sx={{ display: 'flex', justifyContent: "center", alignItems: "center", flexDirection: 'column', width: "63%", p: 0 }}>
           <Typography component="div" variant="h5">
             {"qwer"}
           </Typography>

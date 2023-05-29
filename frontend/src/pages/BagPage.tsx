@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Container } from "../components/styles/container.styled";
 import BagSummary from "../components/BagSummary";
 import BagItem from "../components/BagItem";
-// import { useAppSelector } from "../store/store";
+import { useAppSelector } from "../store/store";
 
 const Header = styled.header`
   font-family: 'MontserratBold';
@@ -31,9 +31,11 @@ const Summary = styled.div`
 
 const BagPage = () => {
 
-  // const bagProducts = useAppSelector(
-  //   (store) => store.cart
-  // );
+  const bagProducts = useAppSelector(
+    (store) => store.cart.products
+  );
+
+  const summ = bagProducts.reduce((acc, next) => acc + +next.price, 0)
 
   return (
     <Container  >
@@ -41,11 +43,11 @@ const BagPage = () => {
 
       <Main>
         <BagList>
-          <BagItem />
+          {bagProducts.map(bagProduct => <BagItem key={bagProduct.id} bagProduct={bagProduct} /> )}
         </BagList>
 
         <Summary>
-          <BagSummary />
+         <BagSummary summ={summ} />
         </Summary>
       </Main>
     </Container>

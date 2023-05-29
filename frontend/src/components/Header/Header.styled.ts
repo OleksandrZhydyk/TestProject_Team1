@@ -67,4 +67,5 @@ export const MenuSVG = styled.svg`
   display: inline-block;
   width: 40px;
   height: 40px;
+  cursor: pointer;
 `;

@@ -5,24 +5,28 @@ import sprite from "../../../images/svg-sprite/MenuSVG.svg";
 import styled from "styled-components";
 import { MenuSVG } from "../../Header/Header.styled";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { getProductDetail } from "../../../store/slices/productsSlice";
+import { addToCart } from "../../../store/slices/cartSlice";
 
 interface Props {
   products: Products | null;
 }
 
 export const Bestsellers: React.FC<Props> = ({ products }) => {
+
   const dispatch = useAppDispatch();
+  const cart = useAppSelector((state) => state.cart.products);
+
   if (!products?.results || products.results.length === 0) {
     return <p>No bestsellers found.</p>;
   }
 
   return (
     <BestsellersList>
-      {products.results.slice(0, 3).map(({ name, id, price, photos, slug }) => {
+      {products.results.slice(0, 3).map(product => {
         return (
-          <BestsellersItem key={id}>
+          <BestsellersItem key={product.id}>
             <ImageBlock>
               <HeartBlock>
                 <Link to="/">
@@ -32,25 +36,27 @@ export const Bestsellers: React.FC<Props> = ({ products }) => {
                 </Link>
               </HeartBlock>
               <RedirectLink
-                onClick={() => dispatch(getProductDetail(slug))}
-                to={`/product/${slug}`}
+                onClick={() => dispatch(getProductDetail(product.slug))}
+                to={`/product/${product.slug}`}
               >
-                <Image src={photos[0].image} width="300" height="275" />
+                <Image src={product.photos[0].image} width="300" height="275" />
               </RedirectLink>
             </ImageBlock>
             <RedirectLink
-              onClick={() => dispatch(getProductDetail(slug))}
-              to={`/product/${slug}`}
+              onClick={() => dispatch(getProductDetail(product.slug))}
+              to={`/product/${product.slug}`}
             >
-              <ProductName>{name}</ProductName>
+              <ProductName>{product.name}</ProductName>
             </RedirectLink>
             <PriceBlock>
-              <Price>{price} грн</Price>
-              <Link to="/">
-                <MenuSVG>
+              <Price>{product.price} грн</Price>
+              <MenuSVG
+                onClick={() => {
+                  const isInCart = cart.find((item) => item.id === product.id);
+                  if (product.id && !isInCart) dispatch(addToCart(product));
+                }}>
                   <use href={sprite + "#Bag"}></use>
                 </MenuSVG>
-              </Link>
             </PriceBlock>
           </BestsellersItem>
         );

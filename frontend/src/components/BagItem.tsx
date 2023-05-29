@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import styled from "styled-components";
 
 import Box from '@mui/material/Box';
@@ -36,16 +36,18 @@ const CountButton = styled.button`
 
 interface BagItemProps {
   bagProduct: ProductData;
+  itemCount: number;
+  setItemCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const BagItem: React.FC<BagItemProps> = ({ bagProduct }) => {
-  const [itemCount, setItemCount] = useState<string>("1")
+const BagItem: React.FC<BagItemProps> = ({ bagProduct, itemCount, setItemCount }) => {
+  
 
   const hendlerIncrement = () => {
-    setItemCount((prev)=> (Number(prev) + 1).toString())
+    setItemCount(prev=> prev + 1)
   }
   const hendlerDecrement = () => {
-    setItemCount((prev)=> prev === "1" ? prev : (Number(prev) - 1).toString())
+    setItemCount(prev => (prev < 2) ? prev : prev - 1)
   }
   
   return (

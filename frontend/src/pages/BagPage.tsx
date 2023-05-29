@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { Container } from "../components/styles/container.styled";
 import BagSummary from "../components/BagSummary";
@@ -30,6 +31,7 @@ const Summary = styled.div`
 `;
 
 const BagPage = () => {
+  const [itemCount, setItemCount] = useState<number>(1)
 
   const bagProducts = useAppSelector(
     (store) => store.cart.products
@@ -43,11 +45,16 @@ const BagPage = () => {
 
       <Main>
         <BagList>
-          {bagProducts.map(bagProduct => <BagItem key={bagProduct.id} bagProduct={bagProduct} /> )}
+          {bagProducts.map(bagProduct => <BagItem
+            key={bagProduct.id}
+            bagProduct={bagProduct}
+            itemCount={itemCount}
+            setItemCount={setItemCount}
+          />)}
         </BagList>
 
         <Summary>
-         <BagSummary summ={summ} />
+         <BagSummary summ={summ} itemCount={itemCount} />
         </Summary>
       </Main>
     </Container>

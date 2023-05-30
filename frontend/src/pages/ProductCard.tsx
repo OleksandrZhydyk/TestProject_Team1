@@ -1,11 +1,11 @@
 import styled from "styled-components";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import Wrapper from "../components/ProductDetail/Wrapper";
 import ImageContainer from "../components/ProductDetail/ImageContainer";
 import ProductDescription from "../components/ProductDetail/ProductDescription";
-import { useEffect } from "react";
 import { getProductDetail } from "../store/slices/productsSlice";
-import { useParams } from "react-router-dom";
 
 const ProductCard = () => {
   const dispatch = useAppDispatch();

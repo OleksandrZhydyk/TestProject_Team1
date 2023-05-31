@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ProductData } from "../../models/productModels";
+import { MakeOrderRequest } from "../../models/productOrderModel";
 
 interface CartState {
-  products: ProductData[];
+  products: MakeOrderRequest[];
 }
 
 const initialCartState: CartState = {
@@ -13,10 +13,10 @@ const CartSlice = createSlice({
   name: "cart",
   initialState: initialCartState,
   reducers: {
-    addToCart: (state, action: PayloadAction<ProductData>) => {
+    addToCart: (state, action: PayloadAction<MakeOrderRequest>) => {
       state.products.push(action.payload);
     },
-    removeItemFromCart: (state, action: PayloadAction<ProductData>) => {
+    removeItemFromCart: (state, action: PayloadAction<MakeOrderRequest>) => {
       state.products = state.products.filter(
         (product) => product.id !== action.payload.id
       );

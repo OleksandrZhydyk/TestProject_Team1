@@ -33,28 +33,25 @@ const Summary = styled.div`
 
 const BagPage = () => {
 
+  const dispatch = useAppDispatch();
   const bagProducts = useAppSelector(
     (store) => store.cart.products
   );
-
-  const dispatch = useAppDispatch();
-
+  
   const summ = bagProducts.reduce((acc, next) => acc + +next.price, 0)
 
   const handleOrder = () => {
     const order = bagProducts.map(product => {
-      
-        return ({
-          id: product.id,
-          slug: product.slug,
-          quantity: 1,
-          color: product?.sizes?.[0].color || "Зелений",
-          size: product?.sizes?.[0].size || "XS"
-        })
+      return ({
+        id: product.id,
+        slug: product.slug,
+        quantity: product.quantity,
+        color: product.color,
+        size: product.size
+      })
     })
-
-    dispatch(clearCart())
     dispatch(orderProduct(order))
+    dispatch(clearCart())
   }
 
   return (

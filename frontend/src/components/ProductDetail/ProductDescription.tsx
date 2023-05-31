@@ -88,11 +88,15 @@ const ProductDescription = ({ product }: Props) => {
         onClick={() => {
           const isInCart = cart.find((item) => item.id === product?.id);
           if (product && !isInCart && orderColor && orderSize) {
-            const { id, slug } = product;
             dispatch(
               addToCart({
-                id,
-                slug,
+                id: product.id,
+                slug: product.slug,
+                price: product.price,
+                name: product.name,
+                description: product.description,
+                photos: product.photos,
+                stock_quantity: product?.sizes?.[0].stock_quantity || 0,
                 quantity: 1,
                 color: orderColor,
                 size: orderSize,

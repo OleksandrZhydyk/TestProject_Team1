@@ -1,8 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { MakeOrderRequest } from "../../models/productOrderModel";
+import { SaveInBag } from "../../models/productOrderModel";
 
 interface CartState {
-  products: MakeOrderRequest[];
+  products: SaveInBag[];
+}
+
+interface changeQuantityPayload {
+  id: number;
+  quantity: number;
 }
 
 const initialCartState: CartState = {
@@ -13,10 +18,10 @@ const CartSlice = createSlice({
   name: "cart",
   initialState: initialCartState,
   reducers: {
-    addToCart: (state, action: PayloadAction<MakeOrderRequest>) => {
+    addToCart: (state, action: PayloadAction<SaveInBag>) => {
       state.products.push(action.payload);
     },
-    removeItemFromCart: (state, action: PayloadAction<MakeOrderRequest>) => {
+    removeItemFromCart: (state, action: PayloadAction<SaveInBag>) => {
       state.products = state.products.filter(
         (product) => product.id !== action.payload.id
       );
@@ -24,8 +29,18 @@ const CartSlice = createSlice({
     clearCart: (state) => {
       state.products = [];
     },
+    changeQuantity: (state, action: PayloadAction<changeQuantityPayload>) => {
+      state.products = state.products.map(
+        (product) => {
+          if (product.id === action.payload.id) {
+            return ({...product, quantity: action.payload.quantity })
+          }
+          return product
+        }
+      );
+    },
   },
 });
 
 export default CartSlice.reducer;
-export const { addToCart, removeItemFromCart, clearCart } = CartSlice.actions;
+export const { addToCart, removeItemFromCart, clearCart, changeQuantity } = CartSlice.actions;

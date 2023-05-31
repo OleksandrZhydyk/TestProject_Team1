@@ -48,6 +48,7 @@ api.interceptors.response.use(
       !error.config_isRetry
     ) {
       originalRequest._isRetry = true;
+      localStorage.setItem("access", "");
       try {
         const response = await axios.post<AccessToken>(
           `${import.meta.env.VITE_API_URL}/auth/refresh/`,

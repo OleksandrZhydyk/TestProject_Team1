@@ -7,6 +7,8 @@ import RegLogModal from "../../container/RegLogModal";
 export const MenuList: React.FC = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
+  const isLogged = localStorage.getItem("access") !== null && localStorage.getItem("access") !== "";
+
   const handleClickOpen = () => {
     setIsOpenModal(true);
   };
@@ -35,7 +37,7 @@ export const MenuList: React.FC = () => {
           setIsOpenModal={setIsOpenModal}
         />
         <Link to="/">
-          <MenuSVG>
+          <MenuSVG style={{backgroundColor: isLogged ? "lightgreen" : ""}}>
             <use href={sprite + "#User"}></use>
           </MenuSVG>
         </Link>

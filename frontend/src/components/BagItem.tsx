@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 
 import Box from '@mui/material/Box';
@@ -6,7 +5,10 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { ProductData } from "../models/productModels";
+
+import { SaveInBag } from "../models/productOrderModel";
+import { useAppDispatch } from "../store/store";
+import { changeQuantity } from "../store/slices/cartSlice";
 
 const CountCellBox = styled.div`
   display: flex;
@@ -35,17 +37,30 @@ const CountButton = styled.button`
 `;
 
 interface BagItemProps {
-  bagProduct: ProductData;
+  bagProduct: SaveInBag;
 }
 
-const BagItem: React.FC<BagItemProps> = ({ bagProduct}) => {
+const BagItem: React.FC<BagItemProps> = ({ bagProduct }) => {
   
+  const dispatch = useAppDispatch();
 
   const hendlerIncrement = () => {
-    // setItemCount(prev=> prev + 1)
+    if (bagProduct.quantity < bagProduct.stock_quantity)
+    dispatch(changeQuantity(
+      {
+        id: bagProduct.id,
+        quantity: bagProduct.quantity + 1,
+      }
+    ))
   }
   const hendlerDecrement = () => {
-    // setItemCount(prev => (prev < 2) ? prev : prev - 1)
+    if (bagProduct.quantity > 1)
+    dispatch(changeQuantity(
+      {
+        id: bagProduct.id,
+        quantity: bagProduct.quantity - 1,
+      }
+    ))
   }
   
   return (
@@ -84,6 +99,9 @@ const BagItem: React.FC<BagItemProps> = ({ bagProduct}) => {
         width: "33%"
       }}>
         <Typography variant="subtitle1" color="text.secondary" component="div">
+          in stock: {bagProduct.stock_quantity}
+        </Typography>
+        <Typography variant="subtitle1" color="text.secondary" component="div">
           кількість
         </Typography>
         <CountCellBox>
@@ -93,7 +111,7 @@ const BagItem: React.FC<BagItemProps> = ({ bagProduct}) => {
           <CountingCell>
           <CountButton onClick={hendlerDecrement}>-</CountButton>
           </CountingCell>
-          <CountCellNum>{1}</CountCellNum>
+          <CountCellNum>{bagProduct.quantity}</CountCellNum>
         </CountCellBox>
       </Box>
     </Card>

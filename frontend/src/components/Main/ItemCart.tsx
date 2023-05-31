@@ -53,9 +53,27 @@ interface Props {
 }
 
 const ItemCart: React.FC<Props> = ({ product }) => {
-
   const dispatch = useAppDispatch();
   const bagCart = useAppSelector((state) => state.cart.products);
+
+  const handlerAddInBag = async () => {
+    const isInCart = bagCart.find((item) => item.id === product.id);
+
+    const respons = await dispatch(getProductDetail(product.slug)).unwrap()
+    
+    if (respons && product.id && !isInCart) dispatch(addToCart({
+      id: respons.id,
+      slug: respons.slug,
+      quantity: 1,
+      color: respons?.sizes?.[0].color || "",
+      size: respons?.sizes?.[0].size || "",
+      price: respons.price,
+      name: respons.name,
+      description: respons.description,
+      photos: respons.photos,
+      stock_quantity: respons?.sizes?.[0].stock_quantity || 0,
+    }));
+  }
 
   return (
     <BestsellersItem key={product.id}>
@@ -82,11 +100,7 @@ const ItemCart: React.FC<Props> = ({ product }) => {
       </RedirectLink>
       <PriceBlock>
         <Price>{product.price} грн</Price>
-        <MenuSVG
-          onClick={() => {
-            const isInCart = bagCart.find((item) => item.id === product.id);
-            if (product.id && !isInCart) dispatch(addToCart(product));
-          }}>
+        <MenuSVG onClick={handlerAddInBag}>
             <use href={sprite + "#Bag"}></use>
           </MenuSVG>
       </PriceBlock>

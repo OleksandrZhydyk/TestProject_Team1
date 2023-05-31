@@ -36,18 +36,16 @@ const CountButton = styled.button`
 
 interface BagItemProps {
   bagProduct: ProductData;
-  itemCount: number;
-  setItemCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const BagItem: React.FC<BagItemProps> = ({ bagProduct, itemCount, setItemCount }) => {
+const BagItem: React.FC<BagItemProps> = ({ bagProduct}) => {
   
 
   const hendlerIncrement = () => {
-    setItemCount(prev=> prev + 1)
+    // setItemCount(prev=> prev + 1)
   }
   const hendlerDecrement = () => {
-    setItemCount(prev => (prev < 2) ? prev : prev - 1)
+    // setItemCount(prev => (prev < 2) ? prev : prev - 1)
   }
   
   return (
@@ -95,7 +93,7 @@ const BagItem: React.FC<BagItemProps> = ({ bagProduct, itemCount, setItemCount }
           <CountingCell>
           <CountButton onClick={hendlerDecrement}>-</CountButton>
           </CountingCell>
-          <CountCellNum>{itemCount}</CountCellNum>
+          <CountCellNum>{1}</CountCellNum>
         </CountCellBox>
       </Box>
     </Card>

@@ -6,9 +6,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import {TableFooter} from '@mui/material';
 import {TableRow, Button} from '@mui/material';
-import { useAppDispatch, useAppSelector } from "../store/store";
-import { orderProduct } from "../store/slices/orderSlice";
-import { clearCart } from "../store/slices/cartSlice";
 
 const StyledTableCell = styled(TableCell)`
   font-family: 'MontserratRegular';
@@ -22,35 +19,15 @@ const StyledTableCellSumm = styled(StyledTableCell)`
 
 interface BagSummaryProps {
   summ: number;
-  itemCount: number;
+  handleOrder: () => void;
 }
 
-const BagSummary: React.FC<BagSummaryProps> = ({ summ, itemCount }) => {
-
-  const dispatch = useAppDispatch();
-  const bagProducts = useAppSelector(
-    (store) => store.cart.products
-  );
+const BagSummary: React.FC<BagSummaryProps> = ({ summ, handleOrder }) => {
   
+  //some rundom calculate
   const deliveryCoast = (summ * 0.02).toFixed(2)
   const bankCommission = (summ * 0.01).toFixed(2)
   const summAll = (summ + +deliveryCoast + +bankCommission).toFixed(2)
-
-  const handleOrder = () => {
-    const order = bagProducts.map(product => {
-      
-        return ({
-          id: product.id,
-          slug: product.slug,
-          quantity: itemCount,
-          color: product?.sizes?.[0].color || "Зелений",
-          size: product?.sizes?.[0].size || "XS"
-        })
-    })
-
-    dispatch(clearCart())
-    dispatch(orderProduct(order))
-  }
   
   return (
     <>

@@ -1,9 +1,10 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { Container } from "../components/styles/container.styled";
 import BagSummary from "../components/BagSummary";
 import BagItem from "../components/BagItem";
-import { useAppSelector } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { clearCart } from "../store/slices/cartSlice";
+import { orderProduct } from "../store/slices/orderSlice";
 
 const Header = styled.header`
   font-family: 'MontserratBold';
@@ -31,13 +32,30 @@ const Summary = styled.div`
 `;
 
 const BagPage = () => {
-  const [itemCount, setItemCount] = useState<number>(1)
 
   const bagProducts = useAppSelector(
     (store) => store.cart.products
   );
 
+  const dispatch = useAppDispatch();
+
   const summ = bagProducts.reduce((acc, next) => acc + +next.price, 0)
+
+  const handleOrder = () => {
+    const order = bagProducts.map(product => {
+      
+        return ({
+          id: product.id,
+          slug: product.slug,
+          quantity: 1,
+          color: product?.sizes?.[0].color || "Зелений",
+          size: product?.sizes?.[0].size || "XS"
+        })
+    })
+
+    dispatch(clearCart())
+    dispatch(orderProduct(order))
+  }
 
   return (
     <Container  >
@@ -48,13 +66,11 @@ const BagPage = () => {
           {bagProducts.map(bagProduct => <BagItem
             key={bagProduct.id}
             bagProduct={bagProduct}
-            itemCount={itemCount}
-            setItemCount={setItemCount}
           />)}
         </BagList>
 
         <Summary>
-         <BagSummary summ={summ} itemCount={itemCount} />
+         <BagSummary summ={summ} handleOrder={handleOrder} />
         </Summary>
       </Main>
     </Container>

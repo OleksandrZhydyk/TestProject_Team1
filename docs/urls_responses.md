@@ -237,7 +237,6 @@
   {
     "id": "int",
     "slug": "string",
-    "price": "int",
     "quantity": "int",
     "color": "string",
     "size": "string"

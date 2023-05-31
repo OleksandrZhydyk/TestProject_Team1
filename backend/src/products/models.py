@@ -40,7 +40,7 @@ class Product(models.Model):
     season = models.CharField(max_length=15, choices=SEASONS, default="Весна/Літо")
 
     def __str__(self):
-        return f'{self.name} {self.sex_and_age} {self.season}'
+        return f'{self.name} {self.sex_and_age} {self.season} {self.slug}'
 
 
 class Size(models.Model):
@@ -51,6 +51,9 @@ class Size(models.Model):
 
     def __str__(self):
         return f'{self.product} {self.size} {self.color}'
+
+    class Meta:
+        unique_together = ('size', 'color', 'product')
 
 
 class Photo(models.Model):

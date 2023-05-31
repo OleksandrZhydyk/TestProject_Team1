@@ -128,7 +128,5 @@ dmypy.json
 .pyre/
 .idea/
 .env
-media
 static
-db.sqlite3
 test_project

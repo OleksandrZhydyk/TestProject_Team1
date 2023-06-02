@@ -103,6 +103,17 @@ const ProductDescription = ({ product }: Props) => {
     }
   };
 
+  const handleIncreaseAmount = () => {
+    if (product?.sizes?.[0].stock_quantity) {
+      if (amount < product?.sizes?.[0].stock_quantity)
+        setAmount((prev) => prev + 1);
+    }
+  };
+
+  const handleDecreaseAmount = () => {
+    if (amount > 1) setAmount((prev) => prev - 1);
+  };
+
   return (
     <Wrapper>
       <Title font="36px">{product?.name}</Title>
@@ -127,17 +138,9 @@ const ProductDescription = ({ product }: Props) => {
       </SelectContainer>
       <Button onClick={handleAddToCart}>Додати в корзину</Button>
       <CountCellBox>
-        <CountingCell onClick={() => setAmount((prev) => prev + 1)}>
-          +
-        </CountingCell>
+        <CountingCell onClick={handleIncreaseAmount}>+</CountingCell>
         <CountCell>{amount}</CountCell>
-        <CountingCell
-          onClick={() => {
-            if (amount > 1) setAmount((prev) => prev - 1);
-          }}
-        >
-          -
-        </CountingCell>
+        <CountingCell onClick={handleDecreaseAmount}>-</CountingCell>
       </CountCellBox>
       <Title font="24px">{product?.description}</Title>
     </Wrapper>

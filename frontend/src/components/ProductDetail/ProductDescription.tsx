@@ -40,6 +40,24 @@ const Button = styled.button`
   font-size: 24px;
 `;
 
+const CountCellBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  padding: 10px;
+  font-size: 36px;
+`;
+const CountingCell = styled.div`
+  cursor: pointer;
+  user-select: none;
+  width: 50px;
+`;
+const CountCell = styled.div`
+  justify-content: center;
+  width: 25%;
+  border: 1xp solid #dde2e4;
+`;
+
 interface StyledProps {
   font: string;
 }
@@ -61,6 +79,27 @@ const ProductDescription = ({ product }: Props) => {
   });
   const [orderSize, setOrderSize] = useState("");
   const [orderColor, setOrderColor] = useState("");
+  const [amount, setAmount] = useState(1);
+
+  const handleAddToCart = () => {
+    const isInCart = cart.find((item) => item.id === product?.id);
+    if (product && !isInCart && orderColor && orderSize) {
+      const { id, slug } = product;
+      dispatch(
+        addToCart({
+          id,
+          slug,
+          quantity: amount,
+          color: orderColor,
+          size: orderSize,
+        })
+      );
+    }
+  };
+
+  const handleChangeAmount = () => {
+    if (amount > 1) setAmount((prev) => prev - 1);
+  };
 
   return (
     <Wrapper>
@@ -68,7 +107,7 @@ const ProductDescription = ({ product }: Props) => {
       <Title font="24px">{product?.price}</Title>
       <SelectContainer>
         <StyledSelect onChange={(e) => setOrderColor(e.target.value)}>
-          <option value="standart">Оберіть колір</option>
+          <option value="">Оберіть колір</option>
           {colors?.map((color, index) => (
             <option key={index} value={color}>
               {color}
@@ -76,7 +115,7 @@ const ProductDescription = ({ product }: Props) => {
           ))}
         </StyledSelect>
         <StyledSelect onChange={(e) => setOrderSize(e.target.value)}>
-          <option value="standart">Оберіть розмір</option>
+          <option value="">Оберіть розмір</option>
           {sizes?.map((size, index) => (
             <option key={index} value={size}>
               {size}
@@ -84,25 +123,14 @@ const ProductDescription = ({ product }: Props) => {
           ))}
         </StyledSelect>
       </SelectContainer>
-      <Button
-        onClick={() => {
-          const isInCart = cart.find((item) => item.id === product?.id);
-          if (product && !isInCart && orderColor && orderSize) {
-            const { id, slug } = product;
-            dispatch(
-              addToCart({
-                id,
-                slug,
-                quantity: 1,
-                color: orderColor,
-                size: orderSize,
-              })
-            );
-          }
-        }}
-      >
-        Додати в корзину
-      </Button>
+      <CountCellBox>
+        <CountingCell onClick={() => setAmount((prev) => prev + 1)}>
+          +
+        </CountingCell>
+        <CountCell>{amount}</CountCell>
+        <CountingCell onClick={handleChangeAmount}>-</CountingCell>
+      </CountCellBox>
+      <Button onClick={handleAddToCart}>Додати в корзину</Button>
       <Title font="24px">{product?.description}</Title>
     </Wrapper>
   );

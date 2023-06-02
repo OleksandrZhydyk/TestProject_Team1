@@ -99,7 +99,8 @@ class Category(models.Model):
             return f'{self.parent} -> {self.name}'
 
     def __str__(self):
-        return self.get_categories()
+        return self.name
+        # return self.get_categories()
 
     class Meta:
         verbose_name_plural = "Categories"

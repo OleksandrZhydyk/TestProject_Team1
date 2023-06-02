@@ -1,14 +1,16 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters.rest_framework import FilterSet, NumberFilter
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework import pagination
 from rest_framework.permissions import AllowAny
 from rest_framework import filters
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
-from products.models import Product, Category, Size
-from products.serializers import ProductSerializer, CategorySerializer, ProductsSerializer
+
+from products import services
+from products.models import Product, Size
+from products.serializers import ProductSerializer, ProductsSerializer
 
 
 class ProductFilter(FilterSet):
@@ -26,6 +28,18 @@ class ProductPagination(pagination.PageNumberPagination):
     max_page_size = 9
 
 
+# class ProductsList(APIView):
+#
+#     pagination_class = ProductPagination
+#     permission_classes = [AllowAny]
+#     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+#     filterset_class = ProductFilter
+#     search_fields = ['name']
+#     def get(self, request):
+#         products = services.ProductService().get_products()
+#         data = ProductsSerializer(products, many=True).data
+#         return Response(data)
+
 class ProductsList(ListAPIView):
 
     serializer_class = ProductsSerializer
@@ -40,20 +54,36 @@ class ProductsList(ListAPIView):
     search_fields = ['name']
 
 
-class ProductView(RetrieveAPIView):
-    serializer_class = ProductSerializer
+class ProductView(APIView):
     permission_classes = [AllowAny]
-    lookup_field = 'slug'
-    queryset = Product.objects \
-        .prefetch_related('photos', 'sizes', 'comments') \
-        .select_related('category') \
-        .order_by('-created_at')
+
+    def get(self, request, slug):
+        product = services.ProductService().get_product(slug)
+        data = ProductSerializer(product).data
+        return Response(data)
+
+# class ProductView(RetrieveAPIView):
+#     serializer_class = ProductSerializer
+#     permission_classes = [AllowAny]
+#     lookup_field = 'slug'
+#     queryset = Product.objects \
+#         .prefetch_related('photos', 'sizes', 'comments') \
+#         .select_related('category') \
+#         .order_by('-created_at')
 
 
-class CategoryList(ListAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+class CategoryList(APIView):
     permission_classes = [AllowAny]
+    def get(self, request):
+        categories = services.CategoriesDAO().fetch_all()
+        data = services.CategorySerializer(categories, many=True).data
+        return Response(data)
+
+
+# class CategoryList(ListAPIView):
+#     queryset = Category.objects.all()
+#     serializer_class = CategorySerializer
+#     permission_classes = [AllowAny]
 
 
 class AvailableChoices(APIView):

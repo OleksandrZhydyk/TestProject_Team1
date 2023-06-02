@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { ProductData } from "../../models/productModels";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { addToCart } from "../../store/slices/cartSlice";
@@ -17,6 +18,7 @@ const SelectContainer = styled.section`
 
 const StyledSelect = styled.select`
   padding: 10px 15px;
+  width: 250px;
   font-size: 24px;
   border-color: #021eab;
   outline: none;
@@ -57,20 +59,24 @@ const ProductDescription = ({ product }: Props) => {
   const sizes = allSizes?.filter((element, index) => {
     return allSizes.indexOf(element) === index;
   });
+  const [orderSize, setOrderSize] = useState("");
+  const [orderColor, setOrderColor] = useState("");
 
   return (
     <Wrapper>
       <Title font="36px">{product?.name}</Title>
       <Title font="24px">{product?.price}</Title>
       <SelectContainer>
-        <StyledSelect>
+        <StyledSelect onChange={(e) => setOrderColor(e.target.value)}>
+          <option value="standart">Оберіть колір</option>
           {colors?.map((color, index) => (
             <option key={index} value={color}>
               {color}
             </option>
           ))}
         </StyledSelect>
-        <StyledSelect>
+        <StyledSelect onChange={(e) => setOrderSize(e.target.value)}>
+          <option value="standart">Оберіть розмір</option>
           {sizes?.map((size, index) => (
             <option key={index} value={size}>
               {size}
@@ -81,7 +87,22 @@ const ProductDescription = ({ product }: Props) => {
       <Button
         onClick={() => {
           const isInCart = cart.find((item) => item.id === product?.id);
-          if (product && !isInCart) dispatch(addToCart(product));
+          if (product && !isInCart && orderColor && orderSize) {
+            dispatch(
+              addToCart({
+                id: product.id,
+                slug: product.slug,
+                price: product.price,
+                name: product.name,
+                description: product.description,
+                photos: product.photos,
+                stock_quantity: product?.sizes?.[0].stock_quantity || 0,
+                quantity: 1,
+                color: orderColor,
+                size: orderSize,
+              })
+            );
+          }
         }}
       >
         Додати в корзину

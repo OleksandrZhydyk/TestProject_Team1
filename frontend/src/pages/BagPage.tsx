@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { Container } from "../components/styles/container.styled";
 import BagSummary from "../components/BagSummary";
 import BagItem from "../components/BagItem";
-// import { useAppSelector } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { clearCart } from "../store/slices/cartSlice";
+import { orderProduct } from "../store/slices/orderSlice";
 
 const Header = styled.header`
   font-family: 'MontserratBold';
@@ -31,9 +33,26 @@ const Summary = styled.div`
 
 const BagPage = () => {
 
-  // const bagProducts = useAppSelector(
-  //   (store) => store.cart
-  // );
+  const dispatch = useAppDispatch();
+  const bagProducts = useAppSelector(
+    (store) => store.cart.products
+  );
+  
+  const summ = bagProducts.reduce((acc, next) => acc + +next.price, 0)
+
+  const handleOrder = () => {
+    const order = bagProducts.map(product => {
+      return ({
+        id: product.id,
+        slug: product.slug,
+        quantity: product.quantity,
+        color: product.color,
+        size: product.size
+      })
+    })
+    dispatch(orderProduct(order))
+    dispatch(clearCart())
+  }
 
   return (
     <Container  >
@@ -41,11 +60,14 @@ const BagPage = () => {
 
       <Main>
         <BagList>
-          <BagItem />
+          {bagProducts.map(bagProduct => <BagItem
+            key={bagProduct.id}
+            bagProduct={bagProduct}
+          />)}
         </BagList>
 
         <Summary>
-          <BagSummary />
+         <BagSummary summ={summ} handleOrder={handleOrder} />
         </Summary>
       </Main>
     </Container>

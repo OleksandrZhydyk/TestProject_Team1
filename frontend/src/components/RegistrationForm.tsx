@@ -71,7 +71,6 @@ const RegistrationForm = ({ setIsOpenModal, setIsOpenLoginForm }: RegFormProps) 
   };
 
   const handleClose = () => {
-    console.log("close")
     setIsOpenModal(false);
   }
 

@@ -95,7 +95,7 @@ const ProductDescription = ({ product }: Props) => {
           description: product.description,
           photos: product.photos,
           stock_quantity: product?.sizes?.[0].stock_quantity || 0,
-          quantity: 1,
+          quantity: amount,
           color: orderColor,
           size: orderSize,
         })

@@ -103,10 +103,6 @@ const ProductDescription = ({ product }: Props) => {
     }
   };
 
-  const handleChangeAmount = () => {
-    if (amount > 1) setAmount((prev) => prev - 1);
-  };
-
   return (
     <Wrapper>
       <Title font="36px">{product?.name}</Title>
@@ -135,7 +131,13 @@ const ProductDescription = ({ product }: Props) => {
           +
         </CountingCell>
         <CountCell>{amount}</CountCell>
-        <CountingCell onClick={handleChangeAmount}>-</CountingCell>
+        <CountingCell
+          onClick={() => {
+            if (amount > 1) setAmount((prev) => prev - 1);
+          }}
+        >
+          -
+        </CountingCell>
       </CountCellBox>
       <Title font="24px">{product?.description}</Title>
     </Wrapper>

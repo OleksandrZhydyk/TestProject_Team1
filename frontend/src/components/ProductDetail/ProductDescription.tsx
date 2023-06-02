@@ -40,6 +40,26 @@ const Button = styled.button`
   font-size: 24px;
 `;
 
+const CountCellBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #dde2e4;
+  font-size: 36px;
+  margin-bottom: 20px;
+`;
+const CountingCell = styled.div`
+  cursor: pointer;
+  user-select: none;
+  width: 50px;
+`;
+const CountCell = styled.div`
+  justify-content: center;
+  width: 25%;
+`;
+
 interface StyledProps {
   font: string;
 }
@@ -61,6 +81,38 @@ const ProductDescription = ({ product }: Props) => {
   });
   const [orderSize, setOrderSize] = useState("");
   const [orderColor, setOrderColor] = useState("");
+  const [amount, setAmount] = useState(1);
+
+  const handleAddToCart = () => {
+    const isInCart = cart.find((item) => item.id === product?.id);
+    if (product && !isInCart && orderColor && orderSize) {
+      dispatch(
+        addToCart({
+          id: product.id,
+          slug: product.slug,
+          price: product.price,
+          name: product.name,
+          description: product.description,
+          photos: product.photos,
+          stock_quantity: product?.sizes?.[0].stock_quantity || 0,
+          quantity: amount,
+          color: orderColor,
+          size: orderSize,
+        })
+      );
+    }
+  };
+
+  const handleIncreaseAmount = () => {
+    if (product?.sizes?.[0].stock_quantity) {
+      if (amount < product?.sizes?.[0].stock_quantity)
+        setAmount((prev) => prev + 1);
+    }
+  };
+
+  const handleDecreaseAmount = () => {
+    if (amount > 1) setAmount((prev) => prev - 1);
+  };
 
   return (
     <Wrapper>
@@ -68,7 +120,7 @@ const ProductDescription = ({ product }: Props) => {
       <Title font="24px">{product?.price}</Title>
       <SelectContainer>
         <StyledSelect onChange={(e) => setOrderColor(e.target.value)}>
-          <option value="standart">Оберіть колір</option>
+          <option value="">Оберіть колір</option>
           {colors?.map((color, index) => (
             <option key={index} value={color}>
               {color}
@@ -76,7 +128,7 @@ const ProductDescription = ({ product }: Props) => {
           ))}
         </StyledSelect>
         <StyledSelect onChange={(e) => setOrderSize(e.target.value)}>
-          <option value="standart">Оберіть розмір</option>
+          <option value="">Оберіть розмір</option>
           {sizes?.map((size, index) => (
             <option key={index} value={size}>
               {size}
@@ -84,29 +136,12 @@ const ProductDescription = ({ product }: Props) => {
           ))}
         </StyledSelect>
       </SelectContainer>
-      <Button
-        onClick={() => {
-          const isInCart = cart.find((item) => item.id === product?.id);
-          if (product && !isInCart && orderColor && orderSize) {
-            dispatch(
-              addToCart({
-                id: product.id,
-                slug: product.slug,
-                price: product.price,
-                name: product.name,
-                description: product.description,
-                photos: product.photos,
-                stock_quantity: product?.sizes?.[0].stock_quantity || 0,
-                quantity: 1,
-                color: orderColor,
-                size: orderSize,
-              })
-            );
-          }
-        }}
-      >
-        Додати в корзину
-      </Button>
+      <Button onClick={handleAddToCart}>Додати в корзину</Button>
+      <CountCellBox>
+        <CountingCell onClick={handleIncreaseAmount}>+</CountingCell>
+        <CountCell>{amount}</CountCell>
+        <CountingCell onClick={handleDecreaseAmount}>-</CountingCell>
+      </CountCellBox>
       <Title font="24px">{product?.description}</Title>
     </Wrapper>
   );

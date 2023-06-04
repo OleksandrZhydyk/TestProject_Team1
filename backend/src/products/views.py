@@ -4,7 +4,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework import pagination
 from rest_framework.permissions import AllowAny
-from rest_framework import filters
+
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 
@@ -28,30 +28,13 @@ class ProductPagination(pagination.PageNumberPagination):
     max_page_size = 9
 
 
-# class ProductsList(APIView):
-#
-#     pagination_class = ProductPagination
-#     permission_classes = [AllowAny]
-#     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-#     filterset_class = ProductFilter
-#     search_fields = ['name']
-#     def get(self, request):
-#         products = services.ProductService().get_products()
-#         data = ProductsSerializer(products, many=True).data
-#         return Response(data)
+class ProductsList(APIView):
 
-class ProductsList(ListAPIView):
-
-    serializer_class = ProductsSerializer
-    pagination_class = ProductPagination
     permission_classes = [AllowAny]
-    queryset = Product.objects \
-        .prefetch_related('photos') \
-        .select_related('category') \
-        .order_by('-created_at')
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_class = ProductFilter
-    search_fields = ['name']
+    def get(self, request):
+        products = services.ProductService().get_products()
+        data = ProductsSerializer(products, many=True).data
+        return Response(data)
 
 
 class ProductView(APIView):
@@ -61,15 +44,6 @@ class ProductView(APIView):
         product = services.ProductService().get_product(slug)
         data = ProductSerializer(product).data
         return Response(data)
-
-# class ProductView(RetrieveAPIView):
-#     serializer_class = ProductSerializer
-#     permission_classes = [AllowAny]
-#     lookup_field = 'slug'
-#     queryset = Product.objects \
-#         .prefetch_related('photos', 'sizes', 'comments') \
-#         .select_related('category') \
-#         .order_by('-created_at')
 
 
 class CategoryList(APIView):

@@ -38,7 +38,7 @@ const BagPage = () => {
     (store) => store.cart.products
   );
   
-  const summ = bagProducts.reduce((acc, next) => acc + +next.price, 0)
+  const summ = bagProducts.reduce((acc, next) => acc + +next.price * next.quantity, 0)
 
   const handleOrder = () => {
     const order = bagProducts.map(product => {

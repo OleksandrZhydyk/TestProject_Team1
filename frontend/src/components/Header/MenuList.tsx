@@ -10,7 +10,7 @@ export const MenuList: React.FC = () => {
   const isLogged = localStorage.getItem("access") !== null && localStorage.getItem("access") !== "";
 
   const handleClickOpen = () => {
-    setIsOpenModal(true);
+    setIsOpenModal(!isOpenModal);
   };
 
   return (

@@ -62,7 +62,6 @@ const LoginForm = ({ setIsOpenLoginForm, setIsOpenModal }: FormProps) => {
   };
 
   const handleClose = () => {
-    console.log("close")
     setIsOpenLoginForm(false);
     setIsOpenModal(false);
   }

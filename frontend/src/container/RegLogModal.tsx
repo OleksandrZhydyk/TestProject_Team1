@@ -47,7 +47,7 @@ const RegLogModal:React.FC<ModalProps> = ({ isOpenModal, setIsOpenModal }) => {
 
   return (
     <Dialog open={isOpenModal} onClose={handleClose}>
-      <MainContainer>
+      <MainContainer onClick={(e) => e.stopPropagation()}>
         <LeftContainer>
           <DialogContent>
             <DialogTitle sx={{ color: "#FFFFFF", padding: 0 }}>MM13</DialogTitle>

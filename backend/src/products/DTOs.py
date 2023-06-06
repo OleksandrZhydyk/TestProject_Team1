@@ -1,22 +1,22 @@
-from dataclasses import dataclass
+# from __future__ import annotations
+from dataclasses import dataclass, field
 from datetime import datetime
-from typing import List, Optional
-
-from django.contrib.contenttypes.models import ContentType
+from typing import List
 
 from products.models import Product
 
 
 @dataclass
 class CategoriesEntity:
-    pk: int
+    id: int
     name: str
     slug: str
-    sub_categories: List[Optional['CategoriesEntity']]
+    sub_categories: List['CategoriesEntity'] = field(default_factory=list)
 
 
 @dataclass
 class SizeEntity:
+    id: int
     size: str
     color: str
     product_id: int
@@ -25,6 +25,7 @@ class SizeEntity:
 
 @dataclass
 class PhotoEntity:
+    id: int
     name: str
     image: str
     product_id: int
@@ -35,27 +36,20 @@ class CategoryEntity:
     id: int
     name: str
     slug: str
+    parent: int
 
 
 @dataclass
-class ProductEntity:
+class CommentEntity:
     id: int
-    name: str
-    price: float
-    description: str
+    text: str
     created_at: datetime
-    updated_at: datetime
-    slug: str
-    category: CategoryEntity
-    sex_and_age: Product.SEX_AND_AGE
-    season: Product.SEASONS
-    photos: List[Optional[PhotoEntity]]
-    sizes: List[Optional[SizeEntity]]
-    comments: List[ContentType]
+    object_id: int
+    user_id: int
+    content_type_id: int
 
 
-
-@dataclass
+@dataclass(kw_only=True)
 class ProductsEntity:
     id: int
     name: str
@@ -67,4 +61,13 @@ class ProductsEntity:
     category: CategoryEntity
     sex_and_age: Product.SEX_AND_AGE
     season: Product.SEASONS
-    photos: List[Optional[PhotoEntity]]
+    photos: List[PhotoEntity] = field(default_factory=list)
+
+
+@dataclass(kw_only=True)
+class ProductEntity(ProductsEntity):
+    comments: List[CommentEntity] = field(default_factory=list)
+    sizes: List[SizeEntity] = field(default_factory=list)
+
+
+

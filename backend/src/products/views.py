@@ -9,8 +9,9 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 
 from products import services
+from products.convertors_to_dto import ToDTO
 from products.models import Product, Size
-from products.serializers import ProductSerializer, ProductsSerializer
+from products.serializers import ProductSerializer, ProductsSerializer, CategorySerializer
 
 
 class ProductFilter(FilterSet):
@@ -32,7 +33,7 @@ class ProductsList(APIView):
 
     permission_classes = [AllowAny]
     def get(self, request):
-        products = services.ProductService().get_products()
+        products = services.ProductService(ToDTO).get_products()
         data = ProductsSerializer(products, many=True).data
         return Response(data)
 
@@ -41,7 +42,7 @@ class ProductView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, slug):
-        product = services.ProductService().get_product(slug)
+        product = services.ProductService(ToDTO).get_product(slug)
         data = ProductSerializer(product).data
         return Response(data)
 
@@ -49,8 +50,8 @@ class ProductView(APIView):
 class CategoryList(APIView):
     permission_classes = [AllowAny]
     def get(self, request):
-        categories = services.CategoriesDAO().fetch_all()
-        data = services.CategorySerializer(categories, many=True).data
+        categories = services.CategoriesDAO(ToDTO).get_categories()
+        data = CategorySerializer(categories, many=True).data
         return Response(data)
 
 

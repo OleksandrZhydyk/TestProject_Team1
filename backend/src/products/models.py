@@ -92,11 +92,9 @@ class Category(models.Model):
     )
     slug = models.SlugField(unique=True)
 
-    def get_categories(self):
-        if self.parent is None:
-            return self.name
-        else:
-            return f'{self.parent} -> {self.name}'
+    @property
+    def sub_categories(self):
+        return Category.objects.filter(parent=self)
 
     def __str__(self):
         return self.name

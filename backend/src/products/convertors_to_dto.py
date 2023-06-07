@@ -15,10 +15,10 @@ class FromOrmToDTO(ToDTOConverter):
 
     def to_dto_entity(self, data: QuerySet, dc: dataclasses.dataclass) -> dataclasses.dataclass:
         dataclass_obj = self._to_dataclass_obj(data, dc)
-        print(dataclass_obj)
+        print(dataclass_obj, sep='\n')
         return dataclass_obj
 
-    def _to_dataclass_obj(self, data, dc):
+    def _to_dataclass_obj(self, data: QuerySet, dc: dataclasses.dataclass):
         if isinstance(data, dict):
             return data
         obj_for_dataclass = {}
@@ -37,7 +37,7 @@ class FromOrmToDTO(ToDTOConverter):
     def _primitive_type(field_data):
         return field_data
 
-    def _dataclass_type(self, field_data, field_type):
+    def _dataclass_type(self, field_data, field_type: type):
         return self._to_dataclass_obj(field_data, field_type)
 
     def _list_of_dataclass_type(self, field_data, field_type):
@@ -53,5 +53,5 @@ class ToDTO:
     def __init__(self, converter: Type[ToDTOConverter]):
         self.converter = converter
 
-    def convert_to_dto(self, data, dc):
+    def convert_to_dto(self, data, dc: dataclasses.dataclass):
         return self.converter().to_dto_entity(data, dc)

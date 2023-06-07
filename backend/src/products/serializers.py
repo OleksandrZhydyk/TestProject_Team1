@@ -86,6 +86,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class ProductsSerializer(serializers.ModelSerializer):
     photos = PhotoSerializer(many=True, read_only=True)
     category = CategoryProductSerializer(read_only=True)
+    # category = CategorySerializer(read_only=True)
 
     class Meta:
         model = Product

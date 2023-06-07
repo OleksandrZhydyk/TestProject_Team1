@@ -8,7 +8,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 
-from products import services
+from products.services import ProductService, CategoriesService
 from products.convertors_to_dto import ToDTO
 from products.models import Product, Size
 from products.serializers import ProductSerializer, ProductsSerializer, CategorySerializer
@@ -33,7 +33,7 @@ class ProductsList(APIView):
 
     permission_classes = [AllowAny]
     def get(self, request):
-        products = services.ProductService(ToDTO).get_products()
+        products = ProductService(ToDTO).get_products()
         data = ProductsSerializer(products, many=True).data
         return Response(data)
 
@@ -42,7 +42,7 @@ class ProductView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, slug):
-        product = services.ProductService(ToDTO).get_product(slug)
+        product = ProductService(ToDTO).get_product(slug)
         data = ProductSerializer(product).data
         return Response(data)
 
@@ -50,7 +50,7 @@ class ProductView(APIView):
 class CategoryList(APIView):
     permission_classes = [AllowAny]
     def get(self, request):
-        categories = services.CategoriesDAO(ToDTO).get_categories()
+        categories = CategoriesService(ToDTO).get_categories()
         data = CategorySerializer(categories, many=True).data
         return Response(data)
 

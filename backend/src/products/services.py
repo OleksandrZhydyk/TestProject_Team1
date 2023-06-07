@@ -31,7 +31,7 @@ class ProductService:
         return products
 
 
-class CategoriesDAO:
+class CategoriesService:
     def __init__(self, converter):
         self.converter = converter
 

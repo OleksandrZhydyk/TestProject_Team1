@@ -1,8 +1,10 @@
 import dataclasses
 from abc import ABC, abstractmethod
-from typing import Type
+from typing import Type, ForwardRef
 
 from django.db.models import QuerySet
+
+from products.DTOs import CategoriesEntity
 
 
 class ToDTOConverter(ABC):
@@ -42,6 +44,8 @@ class FromOrmToDTO(ToDTOConverter):
 
     def _list_of_dataclass_type(self, field_data, field_type):
         obj_type = field_type.__args__[0]
+        if isinstance(obj_type, ForwardRef):
+            obj_type = globals()[obj_type.__forward_arg__]
         values_lst = []
         for orm_obj in field_data.all():
             if dataclasses.is_dataclass(obj_type):

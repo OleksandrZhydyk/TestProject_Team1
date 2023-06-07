@@ -1,4 +1,3 @@
-# from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List
@@ -69,6 +68,3 @@ class ProductsEntity:
 class ProductEntity(ProductsEntity):
     comments: List[CommentEntity] = field(default_factory=list)
     sizes: List[SizeEntity] = field(default_factory=list)
-
-
-

@@ -24,9 +24,10 @@ class ProductService:
 
     def get_products(self):
         products = Product.objects \
-            .prefetch_related('photos') \
             .select_related('category') \
+            .prefetch_related('photos') \
             .order_by('-created_at')
+
         products = map(self.converter(FromOrmToDTO).convert_to_dto, products, repeat(ProductsEntity))
         return products
 

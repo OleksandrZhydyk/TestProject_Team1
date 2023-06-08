@@ -72,22 +72,52 @@ class CommentSerializer(serializers.Serializer):
 #         fields = ["text", "created_at"]
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.Serializer):
     photos = PhotoSerializer(many=True, read_only=True)
     sizes = SizesSerializer(many=True, read_only=True)
     category = CategoryProductSerializer(read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
 
-    class Meta:
-        model = Product
-        fields = "__all__"
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    price = serializers.FloatField()
+    description = serializers.CharField()
+    created_at = serializers.DateTimeField()
+    updated_at = serializers.DateTimeField()
+    slug = serializers.SlugField()
+    sex_and_age: serializers.ChoiceField(Product.SEX_AND_AGE)
+    season: serializers.ChoiceField(Product.SEASONS)
+
+# class ProductSerializer(serializers.ModelSerializer):
+#     photos = PhotoSerializer(many=True, read_only=True)
+#     sizes = SizesSerializer(many=True, read_only=True)
+#     category = CategoryProductSerializer(read_only=True)
+#     comments = CommentSerializer(many=True, read_only=True)
+#
+#     class Meta:
+#         model = Product
+#         fields = "__all__"
 
 
-class ProductsSerializer(serializers.ModelSerializer):
+class ProductsSerializer(serializers.Serializer):
     photos = PhotoSerializer(many=True, read_only=True)
     category = CategoryProductSerializer(read_only=True)
-    # category = CategorySerializer(read_only=True)
 
-    class Meta:
-        model = Product
-        fields = "__all__"
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    price = serializers.FloatField()
+    description = serializers.CharField()
+    created_at = serializers.DateTimeField()
+    updated_at = serializers.DateTimeField()
+    slug = serializers.SlugField()
+    sex_and_age: serializers.ChoiceField(Product.SEX_AND_AGE)
+    season: serializers.ChoiceField(Product.SEASONS)
+
+# class ProductsSerializer(serializers.ModelSerializer):
+#     photos = PhotoSerializer(many=True, read_only=True)
+#     category = CategoryProductSerializer(read_only=True)
+#     # category = CategorySerializer(read_only=True)
+#
+#     class Meta:
+#         model = Product
+#         fields = "__all__"

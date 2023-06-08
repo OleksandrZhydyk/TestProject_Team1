@@ -1,6 +1,7 @@
 import dataclasses
 from abc import ABC, abstractmethod
-from typing import Type, ForwardRef
+from types import GenericAlias
+from typing import Type, ForwardRef, Union, List
 
 from django.db.models import QuerySet
 
@@ -16,11 +17,12 @@ class ToDTOConverter(ABC):
 class FromOrmToDTO(ToDTOConverter):
 
     def to_dto_entity(self, data: QuerySet, dc: dataclasses.dataclass) -> dataclasses.dataclass:
+        # print(data)
         dataclass_obj = self._to_dataclass_obj(data, dc)
-        print(dataclass_obj, sep='\n')
+        # print(dataclass_obj, sep='\n')
         return dataclass_obj
 
-    def _to_dataclass_obj(self, data: QuerySet, dc: dataclasses.dataclass):
+    def _to_dataclass_obj(self, data: Union[QuerySet, dict], dc: dataclasses.dataclass):
         if isinstance(data, dict):
             return data
         obj_for_dataclass = {}
@@ -42,7 +44,7 @@ class FromOrmToDTO(ToDTOConverter):
     def _dataclass_type(self, field_data, field_type: type):
         return self._to_dataclass_obj(field_data, field_type)
 
-    def _list_of_dataclass_type(self, field_data, field_type):
+    def _list_of_dataclass_type(self, field_data, field_type: GenericAlias):
         obj_type = field_type.__args__[0]
         if isinstance(obj_type, ForwardRef):
             obj_type = globals()[obj_type.__forward_arg__]

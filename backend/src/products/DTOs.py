@@ -35,8 +35,6 @@ class CategoryEntity:
     id: int
     name: str
     slug: str
-    parent: int
-    sub_categories: List[CategoriesEntity] = field(default_factory=list)
 
 
 @dataclass

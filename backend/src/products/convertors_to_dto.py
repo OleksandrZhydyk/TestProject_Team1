@@ -17,14 +17,13 @@ class ToDTOConverter(ABC):
 class FromOrmToDTO(ToDTOConverter):
 
     def to_dto_entity(self, data: QuerySet, dc: dataclasses.dataclass) -> dataclasses.dataclass:
-        # print(data)
         dataclass_obj = self._to_dataclass_obj(data, dc)
-        # print(dataclass_obj, sep='\n')
+        print(dataclass_obj, sep='\n')
         return dataclass_obj
 
     def _to_dataclass_obj(self, data: Union[QuerySet, dict], dc: dataclasses.dataclass):
         if isinstance(data, dict):
-            return data
+            return dc(**data)
         obj_for_dataclass = {}
         for field in dataclasses.fields(dc):
             field_data = getattr(data, field.name)

@@ -73,10 +73,10 @@ class CommentSerializer(serializers.Serializer):
 
 
 class ProductSerializer(serializers.Serializer):
-    photos = PhotoSerializer(many=True, read_only=True)
-    sizes = SizesSerializer(many=True, read_only=True)
-    category = CategoryProductSerializer(read_only=True)
-    comments = CommentSerializer(many=True, read_only=True)
+    # photos = PhotoSerializer(many=True, read_only=True)
+    # sizes = SizesSerializer(many=True, read_only=True)
+    # category = CategoryProductSerializer(read_only=True)
+    # comments = CommentSerializer(many=True, read_only=True)
 
     id = serializers.IntegerField()
     name = serializers.CharField()

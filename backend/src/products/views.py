@@ -1,5 +1,9 @@
+import dataclasses
+import datetime
+
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters.rest_framework import FilterSet, NumberFilter
+from pydantic.main import BaseModel
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework import pagination
@@ -37,6 +41,43 @@ class ProductsList(APIView):
         data = ProductsSerializer(products, many=True).data
         return Response(data)
 
+class ProductPydantic(BaseModel):
+# @dataclasses.dataclass
+# class ProductPydantic:
+    id: int
+    name: str
+    price: float
+    description: str
+    created_at: datetime.datetime
+    updated_at: datetime.datetime
+    slug: str
+    sex_and_age: str
+    season: str
+
+    class Config:
+        orm_mode = True
+class ProductPyView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, slug):
+        product = Product.objects.get(slug=slug)
+        print(product)
+        # product = ProductPydantic(product)
+        product = ProductPydantic(
+            id=product.id,
+            name="a",
+            price=24,
+            description=product.description,
+            created_at=product.created_at,
+            updated_at=12,
+            slug=product.slug,
+            sex_and_age=product.sex_and_age,
+            season=product.season
+        )
+        print(product)
+        # product = ProductService(ToDTO).get_product(slug)
+        data = ProductSerializer(product).data
+        return Response(data)
 
 class ProductView(APIView):
     permission_classes = [AllowAny]

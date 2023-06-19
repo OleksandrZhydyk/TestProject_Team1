@@ -18,6 +18,7 @@ api_urlpatterns = [
 urlpatterns = [
     path("api/v1/", include(api_urlpatterns)),
     path("admin/", admin.site.urls),
+    path("chat/", include("chat.urls")),
     path('fill-database/<int:prod_qty>', fill_database, name='fill_database'),
 ]
 
